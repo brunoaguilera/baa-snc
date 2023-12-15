@@ -1,0 +1,212 @@
+http://127.0.0.1:8080/baa-snc/swagger/index.html
+
+
+
+
+
+select * from padron_luque p where p.manzana = '3282';
+select distinct cod_dpto , descripcion , cod_distrito , zona  from padron_luque p where p.manzana = '3282';
+
+27 3282 050
+
+Nombre: Carlos Romero Pereira
+CI: 50275
+Cta Cte: 273282050
+Inmueble: 27385
+RMC: 50275
+Zona: 2
+Debe impuesto desde el periodo: 1999
+
+
+CREATE TABLE padron_luque (
+    COD_DPTO varchar(30),
+    DESCRIPCION varchar(30),
+    COD_DISTRITO varchar(30),
+    DIST_DESCRIPCION varchar(30),
+    ZONA varchar(30),
+    MANZANA varchar(30),
+    LOTE varchar(30),
+    PISO varchar(30),
+    SALON varchar(30),
+    CTACTE varchar(30),
+    SUPERF_TIERRA varchar(30),
+    SUPERFICIE_TIERRA_COMUN varchar(30),
+    SUPERF_TIERRA_TOTAL varchar(30),
+    VALOR_TIERRA varchar(30),
+    SUPERF_EDIF_PROP varchar(30),
+    SUPERF_EDIF_COMUN varchar(30),
+    SUPERF_EDIF_TOTAL varchar(30),
+    VALOR_EDIFICADO varchar(30),
+    VALOR_OFICIAL varchar(30),
+    IMPUESTO varchar(30),
+    IMPUESTO_ADICIONAL varchar(30),
+    IMPUESTO_TOTAL varchar(30),
+    SETENTA_70_PORC_DEL_IMPUESTO_INMOBILIARIO varchar(30),
+    UNO_1_PORC_IMPUESTO_SNC varchar(30)
+);
+
+
+
+
+CREATE TABLE propiedad (
+    id SERIAL PRIMARY KEY,
+    departamento VARCHAR(50),
+    distrito VARCHAR(50),
+    zona VARCHAR(50),
+    manzana VARCHAR(50),
+    lote VARCHAR(50),
+    pisoNivel VARCHAR(50),
+    dptoSalon VARCHAR(50),
+    finca VARCHAR(50),
+    loteoLote VARCHAR(50),
+    loteoManzana VARCHAR(50),
+    exoneracion VARCHAR(50),
+    fechaInscripcion VARCHAR(50),
+    situacionCuentaCorriente VARCHAR(50),
+    situacion VARCHAR(50),
+    superficieM2 VARCHAR(50),
+    supeficieEdificadaM2 VARCHAR(50),
+    valorTierra VARCHAR(50),
+    valorEdificacion VARCHAR(50),
+    datosEspaciales VARCHAR(50),
+    numeroMatricula VARCHAR(50)
+);
+
+CREATE TABLE propietarios (
+    id SERIAL PRIMARY KEY,
+    propiedad_id INTEGER REFERENCES propiedad(id),
+    propNombre VARCHAR(50),
+    propNroDocumento VARCHAR(50),
+    propTelefono VARCHAR(50),
+    propFax VARCHAR(50),
+    propIdDepartamento VARCHAR(50),
+    propIdCiudad VARCHAR(50),
+    propIdCalle1 VARCHAR(50),
+    propNroCasa VARCHAR(50),
+    propIdCalle2 VARCHAR(50),
+    propIdCalle3 VARCHAR(50),
+    propSituacion VARCHAR(50),
+    propTipo VARCHAR(50),
+    propClase VARCHAR(50),
+    propFecUltAct VARCHAR(50),
+    propSiglaIdentidad VARCHAR(50),
+    propTipoDocumento VARCHAR(50),
+    propCodigoNacionalidad VARCHAR(50)
+);
+
+
+CREATE TABLE expedientes (
+    id SERIAL PRIMARY KEY,
+    propiedad_id INTEGER REFERENCES propiedad(id),
+    tipoMesa VARCHAR(50),
+    anho VARCHAR(50),
+    numeroExpediente VARCHAR(50),
+    claseContrato VARCHAR(50),
+    numeroCertificado VARCHAR(50),
+    fechaIngreso VARCHAR(50),
+    fechaEgreso VARCHAR(50),
+    situacion VARCHAR(50),
+    recurrente VARCHAR(50),
+    departamento VARCHAR(50),
+    distrito VARCHAR(50),
+    cuentaCorrientePadron VARCHAR(50)
+);
+
+CREATE TABLE proceso (
+    id SERIAL PRIMARY KEY,
+    expedientes_id int8,
+    fecha BIGINT,
+    fecha_string VARCHAR(50),
+    hora VARCHAR(20),
+    actividad VARCHAR(100),
+    dependencia_proceso VARCHAR(100),
+    dependencia_envio VARCHAR(100)
+);
+
+
+
+GET 'https://www.catastro.gov.py/expediente-electronico/api/public/consultas-publicas/cuenta-corriente?filters=%7B%22pisoNivel%22:%2200%22,%22dptoSalon%22:%22000%22,%22zona%22:27,%22manzana%22:3282,%22lote%22:6,%22idDepartamento%22:%22L%22,%22idCiudad%22:8%7D' 
+
+
+
+baguilera@bruno-pc1:~$ GET 'https://www.catastro.gov.py/expediente-electronico/api/public/consultas-publicas/cuenta-corriente?filters=%7B%22pisoNivel%22:%2200%22,%22dptoSalon%22:%22000%22,%22zona%22:27,%22manzana%22:3282,%22lote%22:6,%22idDepartamento%22:%22L%22,%22idCiudad%22:8%7D'
+{"departamento":"CENTRAL","distrito":"LUQUE","zona":27,"manzana":3282,"lote":6,"pisoNivel":"00","dptoSalon":"000","finca":22252,"loteoLote":"6","loteoManzana":"X","exoneracion":9,"fechaInscripcion":1428984000000,"situacionCuentaCorriente":"A","situacion":"A","superficieM2":360.00,"supeficieEdificadaM2":0.00,"valorTierra":6109920,"valorEdificacion":0,"datosEspaciales":false,"propietariosList":[{"propIdPropietario":null,"propNombre":"AGUILERA, BRUNO ALBERTO","propNroDocumento":"2510026","propTelefono":null,"propFax":null,"propIdDepartamento":null,"propIdCiudad":null,"propIdCalle1":null,"propNroCasa":null,"propIdCalle2":null,"propIdCalle3":null,"propSituacion":null,"propTipo":null,"propClase":null,"propFecUltAct":null,"propSiglaIdentidad":null,"propTipoDocumento":null,"propCodigoNacionalidad":null}],"expeList":[{"tipoMesa":null,"anho":2012,"numeroExpediente":"269834","claseContrato":"PROVISION DE DATOS INMOBILIARIOS","numeroCertificado":null,"fechaIngreso":null,"fechaEgreso":null,"situacion":null,"recurrente":null,"departamento":null,"distrito":null,"cuentaCorrientePadron":null},{"tipoMesa":null,"anho":2014,"numeroExpediente":"108111","claseContrato":"COMPRA/VENTA","numeroCertificado":null,"fechaIngreso":null,"fechaEgreso":null,"situacion":null,"recurrente":null,"departamento":null,"distrito":null,"cuentaCorrientePadron":null},{"tipoMesa":null,"anho":2014,"numeroExpediente":"149743","claseContrato":"ANULACION CERT. CTRAL.","numeroCertificado":null,"fechaIngreso":null,"fechaEgreso":null,"situacion":null,"recurrente":null,"departamento":null,"distrito":null,"cuentaCorrientePadron":null},{"tipoMesa":null,"anho":2015,"numeroExpediente":"38146","claseContrato":"CERTIFICACIONES CATASTRALES","numeroCertificado":null,"fechaIngreso":null,"fechaEgreso":null,"situacion":null,"recurrente":null,"departamento":null,"distrito":null,"cuentaCorrientePadron":null}],"numeroMatricula":null}
+
+
+
+
+GET 'https://www.catastro.gov.py/tramite-virtual/api/v1/public/tramite-virtual/expediente/13302/2011/validate'
+GET 'https://www.catastro.gov.py/tramite-virtual/api/v1/public/tramite-virtual/expediente/98435/2018/validate' 
+
+
+
+
+
+
+GET 'https://www.catastro.gov.py/expediente-electronico/api/public/consultas-publicas/movimiento-expediente?filters=%7B%22anho%22:2014,%22numeroExpediente%22:38150%7D'
+
+public class ProcesoDTO {
+    private Long fecha;
+    private String fechaString;
+    private String hora;
+    private String actividad;
+    private String dependenciaProceso;
+    private String dependenciaEnvio;
+
+    // Getters y setters
+}
+
+
+CREATE TABLE proceso (
+    id SERIAL PRIMARY KEY,
+    fecha BIGINT,
+    fecha_string VARCHAR(50),
+    hora VARCHAR(20),
+    actividad VARCHAR(100),
+    dependencia_proceso VARCHAR(100),
+    dependencia_envio VARCHAR(100)
+);
+
+
+
+
+{"statusCode":400,"error":"Bad Request","message":"No existe un tramite con los filtros"}
+
+
+
+
+-- public.padron_luque definition
+
+-- Drop table
+
+-- DROP TABLE public.padron_luque;
+
+CREATE TABLE public.padron_luque (
+	cod_dpto varchar(30) NULL,
+	descripcion varchar(30) NULL,
+	cod_distrito varchar(30) NULL,
+	dist_descripcion varchar(30) NULL,
+	zona varchar(30) NULL,
+	manzana varchar(30) NULL,
+	lote varchar(30) NULL,
+	piso varchar(30) NULL,
+	salon varchar(30) NULL,
+	ctacte varchar(30) NULL,
+	superf_tierra varchar(30) NULL,
+	superficie_tierra_comun varchar(30) NULL,
+	superf_tierra_total varchar(30) NULL,
+	valor_tierra varchar(30) NULL,
+	superf_edif_prop varchar(30) NULL,
+	superf_edif_comun varchar(30) NULL,
+	superf_edif_total varchar(30) NULL,
+	valor_edificado varchar(30) NULL,
+	valor_oficial varchar(30) NULL,
+	impuesto varchar(30) NULL,
+	impuesto_adicional varchar(30) NULL,
+	impuesto_total varchar(30) NULL,
+	setenta_70_porc_del_impuesto_inmobiliario varchar(30) NULL,
+	uno_1_porc_impuesto_snc varchar(30) NULL
+);
+
+
+

@@ -1,0 +1,259 @@
+.. title::
+    Autenticación Móvil
+
+*********************
+Autenticación Móvil
+*********************
+
+Esta es una descripción técnica de los servicios a utilizar para realizar un
+*login* y activación de dispositivos móviles. Para una descripción más general
+vea :ref:`mibi-usecases`
+
+.. _mibi-auth-movil:
+
+Acceso con móviles
+==================
+
+Obtener un token de ingreso
+----------------------------
+
+Un usuario con una aplicación móvil requiere además pasar un atributo adicional
+que identifica únicamente al dispositivo. Se realizan los pasos descritos en :ref:`mibi-auth-simple`.
+
+.. http:post:: /api/login
+
+    **Petición de Ejemplo**
+
+    Se realiza un login con la aplicación iOS y el `identificador único`__
+    del dispositivo.
+    
+    __ https://developers.google.com/cloud-messaging/registration
+    
+    .. sourcecode:: http
+   
+        POST /api/login HTTP/1.1
+        Host: example.com
+        Accept: application/json, text/javascript
+        Content-Type: text/javascript
+        X-MIBI-VERSION: 2.0
+        
+        {
+            "username": "0900315474",
+            "password": "682048",
+            "applicationId": "A5BBHDM6X7BQ",
+            "deviceIdentifier": "cpY06SskUgo:APA91bFNyTDLC_78xzh5t_Ty0ZHGfRn4gA7Oe78j-b9VcBu-RbDJK7T6hGrZ69z8V3Zv_CMXALIN2tp5117WYwWKLEDGSWuC22dRSrrmC3BmMY0bkOOJP_KdSRyDJDoxJdlpv09mjDYB",
+            "deviceType": "IOS",
+            "deviceName": "My IPhone 5"
+        }
+        
+    :<json string applicationId: Es el ID de aplicación expedido para iOS en este caso (ver :ref:`mibi-app-id`).
+    :<json string deviceIdentifier: Es el ID único del dispositivo móvil generado por
+     la aplicación y expedido para cada instancia de aplicación.
+    :<json string deviceType: Tipo de dispositivo (*ANDROID*, *IOS*)
+    :<json string deviceName: Alias del dispositivo
+    :reqheader X-MIBI-VERSION: La versión 2 registra y recibe *deviceIdentifier*
+
+    **Respuesta de Ejemplo**
+    
+    En caso de tener éxito la aplicación devolverá un JSON como el siguiente
+
+    .. sourcecode:: http    
+
+        HTTP/1.1 202 Accepted
+        Content-Type: text/javascript
+
+        {
+            "success": true,
+            "errorCode": null,
+            "message": null,
+            "secret": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwOTAwMzE1NDc0IiwiZXhwIjoxNDQ5MTc3ODUzLCJpYXQiOjE0NDkxNzQyNTMsImlzcyI6InBsYXRhcHAuY29tLnB5IiwianRpIjoiVlpBTEZGRFZKUEozRkJUQ1MzTVEiLCJhdWQiOiJzdHJpbmciLCJtaWJpIjp7ImF1dGhzIjpudWxsLCJ0eXBlIjoiUkVGUkVTSCJ9fQ.cJCq5VJjZSnSx1ZOm_2jq9bULNRiUdc06bKkjBIhbv7qGJoHfXTp4uy0tEwFmGz4Pj3Y37KumUbzTWi_mtGg-A",
+            "expiration": 1449177853000,
+            "userId": "KPOIFC4S32QA",
+            "user": {
+                "id": "KPOIFC4S32QA",
+                "active": true,
+                "status": "PENDING",
+                "phone": "0900315474",
+                "pdv": false
+            }
+        }
+    
+    :statuscode 202: Autenticación exitosa
+    :statuscode 409: Faltan parámetros necesarios como el ``deviceIdentifier``,
+     ``deviceType`` ya que se trata de autenticar un ``applicationId`` para
+     teléfonos móviles
+    :statuscode 401: Fallo por credenciales incorrectas
+    :statuscode 403: Nombre de aplicación inválida
+    :>json string secret: Es el *refresh token* JWT que debe ser incluido en las
+     siguientes peticiones 
+
+Observación:
+
+    **El refresh token puede no emitir access tokens hasta activar el dispositivo**
+    
+    Si el ``deviceIdentifier`` aún no fue autorizado por el usuario este debe
+    ser activado en el `Activación de móviles`_.
+    
+    El ``deviceIdentifier`` también se utiliza para la web para lo cual la
+    aplicación Web genera automáticamente este identificador de acuerdo al
+    contexto.
+
+Obtener un token de acceso
+--------------------------
+
+Este paso es idéntico al descrito en :ref:`mibi-auth-simple` pero se incluye una
+restricción adicional. Lo nuevo es que si el *refresh token* no está autorizado
+entonces el servicio devuelve 409.
+
+.. http:post:: /api/token/user-access
+    
+    **Petición de Ejemplo**
+
+    Para conseguir el token de acceso el sistema invocará un POST (sin body).
+    Lo importante es siempre incluir el *refresh token* en el cabecera
+    ``X-MIBI-AUTH``.
+    
+    .. sourcecode:: http
+   
+        POST /api/token/user-access HTTP/1.1
+        Host: example.com
+        Accept: application/json, text/javascript
+        Content-Type: text/javascript
+        X-MIBI-AUTH: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwOTAwMzE1NDc0IiwiZXhwIjoxNDQ4NDA3MTA2LCJpYXQiOjE0NDg0MDM1MDYsImlzcyI6InBsYXRhcHAuY29tLnB5IiwianRpIjoiNFJBWVBOVExOV1VKNUNCS0VKNFEiLCJhdWQiOiJkYWFhIiwibWliaSI6eyJhdXRocyI6bnVsbCwidHlwZSI6IlJFRlJFU0gifX0.PFCA2fz3GSPFZ48S3h541gMe5sjzGwgoxqYdq1267_yXh4Az_5-HSiRYs2pY_mk-Sqpywkj76n7QEiJl5rPVgA
+    
+    :reqheader X-MIBI-AUTH: MIBI *refresh token* para acceso
+    
+    **Respuesta de Ejemplo**
+    
+    En un caso exitoso el servicio devolverá un *access token*.
+
+    .. sourcecode:: http
+        
+        HTTP/1.1 202 Accepted
+        Content-Type: text/javascript
+        
+        {
+            "success": true
+            "errorCode": null
+            "message": null
+            "secret": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwOTAwMzE1NDc0IiwiZXhwIjoxNDQ4NDA0NzM0LCJpYXQiOjE0NDg0MDM1MzQsImlzcyI6InBsYXRhcHAuY29tLnB5IiwianRpIjoiNUJBWlRGUEpQNUxaS1dOWk01VEEiLCJhdWQiOiJkYWFhIiwibWliaSI6eyJhdXRocyI6bnVsbCwidHlwZSI6IkVORF9VU0VSX0FDQ0VTUyJ9fQ.VAahdlOmxv3Oj6ql0ORHVOX-iGtIL61lnwqJ69GlyHgyx3h5rPP2Nxy-w3U4YUMyNxTp9-tpbXiW-56xAWFJqg"
+            "expiration": 1448404734000
+        }
+        
+    :statuscode 202: Autorización exitosa
+    :statuscode 409: En caso de proveerse un *refresh token* no autorizado
+     realizar primeramente `Activación de móviles`_
+    :statuscode 403: En caso de proveerse un *refresh token* inválido
+    :>json string secret: El atributo secret contiene el token en formato ``JWT``
+     que se debe utilizar en los siguientes llamados.
+
+.. _mibi-auth-movil-act:
+
+Activación de móviles
+=====================
+
+La aplicación ya posee un :term:`refresh token` pero aún no está autorizado,
+es decir si requerimos un :term:`access token` la llamada falla por proveer un
+dispositivo nuevo. El cliente puede tener sólo un *refresh token* activo por vez
+asociado a un dispositivo. 
+
+Obtener un código de acceso
+---------------------------
+
+Primeramente se procede a realizar una autenticación del dispositivo por medio de
+un SMS (*o en el futuro permitir el acceso por un QR Code generado cada X segundos*)
+
+.. http:post:: /api/token/refresh/code
+    
+    **Petición de Ejemplo**
+
+    Primeramente para activar el *refresh token* la aplicación
+    invocará un POST (sin body). Lo importante es incluir el *refresh token*
+    válido obtenido del punto `Obtener un token de ingreso`_ en el cabecera de
+    autorización ``X-MIBI-AUTH``.
+    
+    .. sourcecode:: http
+   
+        POST /api/token/refresh/code HTTP/1.1
+        Host: example.com
+        Accept: application/json, text/javascript
+        Content-Type: text/javascript
+        X-MIBI-AUTH: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwOTAwMzE1NDc0IiwiZXhwIjoxNDQ4NDA3MTA2LCJpYXQiOjE0NDg0MDM1MDYsImlzcyI6InBsYXRhcHAuY29tLnB5IiwianRpIjoiNFJBWVBOVExOV1VKNUNCS0VKNFEiLCJhdWQiOiJkYWFhIiwibWliaSI6eyJhdXRocyI6bnVsbCwidHlwZSI6IlJFRlJFU0gifX0.PFCA2fz3GSPFZ48S3h541gMe5sjzGwgoxqYdq1267_yXh4Az_5-HSiRYs2pY_mk-Sqpywkj76n7QEiJl5rPVgA
+    
+    :reqheader X-MIBI-AUTH: El *refresh token* que requiere ser activado
+    
+    **Respuesta de Ejemplo**
+    
+    En el caso exitoso el servicio enviara un SMS con una clave temporal 
+    de activación de un solo uso (*one time pass*) al sujeto asociado al *token*.
+
+    .. sourcecode:: http
+        
+        HTTP/1.1 201 Created
+        Content-Type: text/javascript
+        
+        {
+            "success": true,
+            "errorCode": null,
+            "message": null
+            "expiration": 1448404734000
+        }
+        
+    :statuscode 201: Se envío un SMS al propietario del refresh token con la
+     clave de activación.
+    :statuscode 403: En caso de proveerse un *refresh token* inválido.
+    :>json string expiration: Tiempo de validez de la clave temporal.
+
+Activar un token de ingreso
+---------------------------
+
+Siguiendo se procede a realizar una autorización del dispositivo por medio de
+del código recibido por SMS.
+
+.. http:put:: /api/token/refresh
+    
+    **Petición de Ejemplo**
+
+    Para autorizar el *refresh token* la aplicación invocará un PUT con los
+    detalles del dispositivo y la clave de activación recibida además de 
+    incluir el *refresh token* válido obtenido del punto
+    `Obtener un token de ingreso`_ en el cabecera de
+    autorización ``X-MIBI-AUTH``.
+    
+    .. sourcecode:: http
+   
+        PUT /api/token/refresh HTTP/1.1
+        Host: example.com
+        Accept: application/json, text/javascript
+        Content-Type: text/javascript
+        X-MIBI-AUTH: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwOTAwMzE1NDc0IiwiZXhwIjoxNDQ4NDA3MTA2LCJpYXQiOjE0NDg0MDM1MDYsImlzcyI6InBsYXRhcHAuY29tLnB5IiwianRpIjoiNFJBWVBOVExOV1VKNUNCS0VKNFEiLCJhdWQiOiJkYWFhIiwibWliaSI6eyJhdXRocyI6bnVsbCwidHlwZSI6IlJFRlJFU0gifX0.PFCA2fz3GSPFZ48S3h541gMe5sjzGwgoxqYdq1267_yXh4Az_5-HSiRYs2pY_mk-Sqpywkj76n7QEiJl5rPVgA
+        
+        {
+            "activationCode": "812399"
+        }
+    
+    :<json string activationCode: La clave temporal de activación para este
+     *token*
+    :reqheader X-MIBI-AUTH: El *refresh token* que requiere ser activado
+    
+    **Respuesta de Ejemplo**
+    
+    En el caso exitoso el servicio activará el *deviceId* para el cliente asociado
+    al *refresh token* y el *token* estará autorizado
+    para `Obtener un token de acceso`_.
+
+    .. sourcecode:: http
+        
+        HTTP/1.1 202 Accepted
+        Content-Type: text/javascript
+        
+        {
+            "success": true,
+            "errorCode": null,
+            "message": null
+        }
+        
+    :statuscode 202: El *refresh token* está autorizado.
+    :statuscode 401: En caso de proveerse un *deviceId*
+     o *activationCode* inválido
+    :statuscode 403: En caso de proveerse un *refresh token* inválido

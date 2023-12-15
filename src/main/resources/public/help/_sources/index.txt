@@ -1,0 +1,56 @@
+.. title::
+    MIBI - Developer center
+
+.. _mibi-index:
+
+#######################
+MIBI - Developer center
+#######################
+---------------------------------------------
+Un resumen del API de MIBI y como utilizarlo.
+---------------------------------------------
+
+¿Que es MIBI?
+=============
+
+:term:`MIBI` es la plataforma de comunicación para billetera electrónica. Una billetera
+electrónica permite a un usuario realizar movimientos de dinero electrónico a
+cualquier persona que posea un número de celular.
+
+La persona utiliza su celular como un identificador para poder realizar las
+operaciones, las cuales pueden ser de giro, carga y pago de servicios.
+
+Parte clave del ecosistema son los PDV (Puntos de Venta), que son comercios
+adheridos al sistema donde el usuario puede convertir dinero físico
+(efectivo, cheque) en dinero digital. 
+
+La plataforma soporta diferentes tipos de usuarios:
+
+:term:`End User`
+  Podría decirse que es el mas importante de la cadena.
+  Es una persona que utiliza la billetera para enviar/recibir transacciones,
+  o pagar algún servicio (ejemplo ANDE).
+    
+:term:`Usuario PDV`
+  Los puntos de giro son los comercios asociados donde
+  el usuario puede realizar una carga a su billetera o retirar dinero en efectivo.
+
+:term:`Back Office`
+  Funcionalidades específicas para soportar la logística.
+    
+.. _mibi-content:
+
+.. toctree::
+   :caption: Tabla de Contenido
+   :numbered: 
+   :maxdepth: 1
+
+   rest.rst 
+   auth.rst
+   activate.rst
+   auth-login.rst
+   auth-mobile.rst
+   use_cases.rst 
+   jwt.rst
+   glossary.rst 
+

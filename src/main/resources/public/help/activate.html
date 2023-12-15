@@ -1,0 +1,364 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Proceso de Activación &mdash; documentación de MIBI - 1.0</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="documentación de MIBI - 1.0" href="index.html"/>
+        <link rel="next" title="4. Autenticación Básica" href="auth-login.html"/>
+        <link rel="prev" title="2. Autenticación con Tokens" href="auth.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> MIBI
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Tabla de Contenido</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="rest.html">1. API REST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auth.html">2. Autenticación con Tokens</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">3. Proceso de Activación</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#activacion">3.1. Activación</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#registro">3.1.1. Registro</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#confirmacion-de-clave">3.1.2. Confirmación de Clave</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#creacion-de-billetera">3.1.3. Creación de Billetera</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="auth-login.html">4. Autenticación Básica</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auth-mobile.html">5. Autenticación Móvil</a></li>
+<li class="toctree-l1"><a class="reference internal" href="use_cases.html">6. Casos de Uso de Acceso</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jwt.html">7. Formato JWT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">8. Glosario</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">MIBI</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Proceso de Activación</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="proceso-de-activacion">
+<span id="mibi-activate"></span><h1>3. Proceso de Activación<a class="headerlink" href="#proceso-de-activacion" title="Enlazar permanentemente con este título">¶</a></h1>
+<p>En este apartado queremos resumir los endpoints y el orden en que deben ser
+invocados para que una persona pueda realizar una activación exitosa.</p>
+<div class="section" id="activacion">
+<h2>3.1. Activación<a class="headerlink" href="#activacion" title="Enlazar permanentemente con este título">¶</a></h2>
+<div class="section" id="registro">
+<h3>3.1.1. Registro<a class="headerlink" href="#registro" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>El primer paso es invocar el método de registro.</p>
+<dl class="post">
+<dt id="post--api-users">
+<code class="descname">POST </code><code class="descname">/api/users</code><a class="headerlink" href="#post--api-users" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p><strong>Petición de Ejemplo</strong></p>
+<div class="highlight-http"><div class="highlight"><pre><span></span><span class="nf">POST</span> <span class="nn">/api/users</span> <span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Host</span><span class="o">:</span> <span class="l">example.com</span>
+<span class="na">Accept</span><span class="o">:</span> <span class="l">application/json, text/javascript</span>
+<span class="na">Content-Type</span><span class="o">:</span> <span class="l">text/javascript</span>
+
+<span class="p">{</span>
+    <span class="nx">phoneNumber</span><span class="o">:</span> <span class="s2">&quot;0991200000&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Request JSON Object:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><ul class="first last simple">
+<li><strong>phoneNumber</strong> (<em>string</em>) &#8211; Número de móvil a registrar</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Respuesta de Ejemplo</strong></p>
+<div class="highlight-http"><div class="highlight"><pre><span></span><span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">201</span> <span class="ne">Created</span>
+<span class="na">Content-Type</span><span class="o">:</span> <span class="l">text/javascript</span>
+
+<span class="p">{</span>
+  <span class="s2">&quot;success&quot;</span> <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="s2">&quot;errorCode&quot;</span> <span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+  <span class="s2">&quot;message&quot;</span> <span class="o">:</span> <span class="kc">null</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Status Codes:</th><td class="field-body"><ul class="first last simple">
+<li><a class="reference external" href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.2">201 Created</a> &#8211; Registro exitoso</li>
+<li><a class="reference external" href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.1">400 Bad Request</a> &#8211; Número de móvil inválido</li>
+<li><a class="reference external" href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.10">409 Conflict</a> &#8211; El número ya esta registrado</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>El anterior POST realizaría un registro de una billetera. En caso de fallar el
+registro el se devolverá el código 409, Si la billetera ya fue registrada.</p>
+<p>En caso de tener éxito la aplicación devolverá un JSON como la respuesta y
+el código 201. La billetera no se puede utilizar para hacer transferencias,
+puesto que aún no ha sido activada</p>
+<blockquote>
+<div><p><strong>El status del usuario es CLAVE para saber si puede operar</strong></p>
+<p>Si el status del usuario es <em>PENDING</em> o <em>CREATING</em> entonces no está activo
+y debe ser activado. Se debe presentar al usuario el/los formulario/s
+correspondientes para realizar la activación. Si el usuario está <em>ACTIVE</em>
+entonces puede operar.</p>
+</div></blockquote>
+</div>
+<div class="section" id="confirmacion-de-clave">
+<h3>3.1.2. Confirmación de Clave<a class="headerlink" href="#confirmacion-de-clave" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>El segundo paso es confirmar el número de activación enviado por SMS al
+propietario del teléfono, para esto se debe realizar un login descrito en <a class="reference internal" href="auth-login.html#mibi-auth-simple"><span class="std std-ref">Acceso al sistema</span></a>.</p>
+</div>
+<div class="section" id="creacion-de-billetera">
+<h3>3.1.3. Creación de Billetera<a class="headerlink" href="#creacion-de-billetera" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Finalmente se realiza la activación invocando al método descrito abajo. En caso
+de fallar el sistema devolverá 409. En caso de tener éxito la aplicación
+devolverá un JSON como la respuesta y el código 200.</p>
+<dl class="post">
+<dt id="post--api-wallets-(int-phoneNumber)-activate">
+<code class="descname">POST </code><code class="descname">/api/wallets/</code><span class="sig-paren">(</span><em class="property">int: </em><em>phoneNumber</em><span class="sig-paren">)</span><code class="descname">/activate</code><a class="headerlink" href="#post--api-wallets-(int-phoneNumber)-activate" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p><strong>Petición de Ejemplo</strong></p>
+<div class="highlight-http"><div class="highlight"><pre><span></span><span class="nf">POST</span> <span class="nn">/api/wallets/0991200000/activate</span> <span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Host</span><span class="o">:</span> <span class="l">example.com</span>
+<span class="na">Accept</span><span class="o">:</span> <span class="l">application/json, text/javascript</span>
+<span class="na">Content-Type</span><span class="o">:</span> <span class="l">text/javascript</span>
+
+<span class="p">{</span>
+  <span class="s2">&quot;personId&quot;</span><span class="o">:</span><span class="s2">&quot;91200&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;firstName&quot;</span><span class="o">:</span><span class="s2">&quot;Luis&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;lastName&quot;</span><span class="o">:</span><span class="s2">&quot;Cano&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;birthDate&quot;</span><span class="o">:</span><span class="s2">&quot;1998-12-12&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;pin&quot;</span><span class="o">:</span><span class="s2">&quot;222222&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>phoneNumber</strong> (<em>string</em>) &#8211; Número de móvil</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Request JSON Object:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><ul class="first last simple">
+<li><strong>personId</strong> (<em>string</em>) &#8211; Documento de identidad</li>
+<li><strong>birthDate</strong> (<em>string</em>) &#8211; Fecha de nacimiento</li>
+<li><strong>pin</strong> (<em>string</em>) &#8211; numero de pin inicial</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Respuesta de Ejemplo</strong></p>
+<div class="highlight-http"><div class="highlight"><pre><span></span><span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">201</span> <span class="ne">Created</span>
+<span class="na">Content-Type</span><span class="o">:</span> <span class="l">text/javascript</span>
+
+<span class="p">{</span>
+  <span class="s2">&quot;success&quot;</span> <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="s2">&quot;errorCode&quot;</span> <span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+  <span class="s2">&quot;message&quot;</span> <span class="o">:</span> <span class="kc">null</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Status Codes:</th><td class="field-body"><ul class="first last simple">
+<li><a class="reference external" href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.2">201 Created</a> &#8211; Registro exitoso</li>
+<li><a class="reference external" href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.1">400 Bad Request</a> &#8211; Número de móvil inválido</li>
+<li><a class="reference external" href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.5">404 Not Found</a> &#8211; El número no esta registrado</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="auth-login.html" class="btn btn-neutral float-right" title="4. Autenticación Básica" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="auth.html" class="btn btn-neutral" title="2. Autenticación con Tokens" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, SODEP S.A..
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

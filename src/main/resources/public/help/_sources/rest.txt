@@ -1,0 +1,72 @@
+.. _mibi-api:
+
+********
+API REST
+******** 
+
+MIBI utiliza un :term:`API REST` para comunicarse con diferentes tipos de
+aplicaciones. EL :term:`API REST` es un solo punto de acceso para soportar todas
+las operaciones de manera independiente a la aplicación que está utilizando
+la invocación.
+
+    **SWAGGER**
+
+    La documentación autorizada del :term:`API` es el Swagger y debería de ser
+    la referencia sobre cualquier otra documentación existente.
+    Para acceder al swagger puede ingresar a este `link`__
+    
+__ /mibi/swagger/index.html
+   
+El API de MIBI está diseñado para seguir -en la medida de lo posible- los principios
+propuestos por `Roy Fielding <http://www.ics.uci.edu/~fielding/>`_ en [#]_.
+
+Recursos del API
+================
+
+Se identifican los siguientes recursos dentro del sistema:
+
+users 
+    Es un usuario dentro del sistema (cualquier sea su tipo). Un usuario se
+    identifica con un ID (``string``) aerogenerado por el sistema.
+
+wallet  
+    Un usuario puede poseer un wallet. El wallet está identificado con un
+    número de teléfono, y desde este lugar se pueden realizar las operaciones
+    de dinero.
+
+pdvs 
+    PDVs (puntos de venta o giro). Son los negocios adheridos que pueden operar
+    dentro de la plataforma.
+
+pdv-tx 
+    Transacciones que se realizan desde un PDV. Se hace hincapié en
+    diferenciarlas para que aplicaciones dedicadas a usuario final no intenten
+    invocarlas.
+
+
+Verbos HTTP y respuestas
+========================
+Se utilizan los verbos HTTP para señalizar las diferentes operaciones que el
+sistema puede realizar sobre un recurso particular
+
+GET
+    Nunca modifica datos, solamente lee el estado de un recurso y devuelve,
+    200 OK en caso de éxito. 
+    En caso de fallo puede ser 403 (si el recurso no existe)
+POST
+    Crea un nuevo recurso dentro del sistema. Puede ser un nuevo usuario,
+    o una nueva transacción. 
+    En caso que el recurso haya sido creado devuelve 201 CREATED
+PUT  
+    Actualiza el recurso identificado por el URL.
+    Devuelve 200 OK en caso que la operación haya sido exitosa.
+PATCH 
+    Actualiza el recurso identificado por el URL pero de manera parcial. 
+    Devuelve 200 OK en caso que la operación haya sido exitosa.
+DELETE 
+    Elimina el recurso identificado por el URL
+
+.. rubric:: Footnotes
+
+.. [#] `Architectural Styles and the Design of Network-based Software Architectures <https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm>`_.
+

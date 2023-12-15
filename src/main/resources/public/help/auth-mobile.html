@@ -1,0 +1,549 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Autenticación Móvil &mdash; documentación de MIBI - 1.0</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="documentación de MIBI - 1.0" href="index.html"/>
+        <link rel="next" title="6. Casos de Uso de Acceso" href="use_cases.html"/>
+        <link rel="prev" title="4. Autenticación Básica" href="auth-login.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> MIBI
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Tabla de Contenido</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="rest.html">1. API REST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auth.html">2. Autenticación con Tokens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="activate.html">3. Proceso de Activación</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auth-login.html">4. Autenticación Básica</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">5. Autenticación Móvil</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#acceso-con-moviles">5.1. Acceso con móviles</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#obtener-un-token-de-ingreso">5.1.1. Obtener un token de ingreso</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#obtener-un-token-de-acceso">5.1.2. Obtener un token de acceso</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#activacion-de-moviles">5.2. Activación de móviles</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#obtener-un-codigo-de-acceso">5.2.1. Obtener un código de acceso</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#activar-un-token-de-ingreso">5.2.2. Activar un token de ingreso</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="use_cases.html">6. Casos de Uso de Acceso</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jwt.html">7. Formato JWT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">8. Glosario</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">MIBI</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Autenticación Móvil</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="autenticacion-movil">
+<h1>5. Autenticación Móvil<a class="headerlink" href="#autenticacion-movil" title="Enlazar permanentemente con este título">¶</a></h1>
+<p>Esta es una descripción técnica de los servicios a utilizar para realizar un
+<em>login</em> y activación de dispositivos móviles. Para una descripción más general
+vea <a class="reference internal" href="use_cases.html#mibi-usecases"><span class="std std-ref">Casos de Uso de Acceso</span></a></p>
+<div class="section" id="acceso-con-moviles">
+<span id="mibi-auth-movil"></span><h2>5.1. Acceso con móviles<a class="headerlink" href="#acceso-con-moviles" title="Enlazar permanentemente con este título">¶</a></h2>
+<div class="section" id="obtener-un-token-de-ingreso">
+<h3>5.1.1. Obtener un token de ingreso<a class="headerlink" href="#obtener-un-token-de-ingreso" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Un usuario con una aplicación móvil requiere además pasar un atributo adicional
+que identifica únicamente al dispositivo. Se realizan los pasos descritos en <a class="reference internal" href="auth-login.html#mibi-auth-simple"><span class="std std-ref">Acceso al sistema</span></a>.</p>
+<dl class="post">
+<dt id="post--api-login">
+<code class="descname">POST </code><code class="descname">/api/login</code><a class="headerlink" href="#post--api-login" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p><strong>Petición de Ejemplo</strong></p>
+<p>Se realiza un login con la aplicación iOS y el <a class="reference external" href="https://developers.google.com/cloud-messaging/registration">identificador único</a>
+del dispositivo.</p>
+<div class="highlight-http"><div class="highlight"><pre><span></span><span class="nf">POST</span> <span class="nn">/api/login</span> <span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Host</span><span class="o">:</span> <span class="l">example.com</span>
+<span class="na">Accept</span><span class="o">:</span> <span class="l">application/json, text/javascript</span>
+<span class="na">Content-Type</span><span class="o">:</span> <span class="l">text/javascript</span>
+<span class="na">X-MIBI-VERSION</span><span class="o">:</span> <span class="l">2.0</span>
+
+<span class="p">{</span>
+    <span class="s2">&quot;username&quot;</span><span class="o">:</span> <span class="s2">&quot;0900315474&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;password&quot;</span><span class="o">:</span> <span class="s2">&quot;682048&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;applicationId&quot;</span><span class="o">:</span> <span class="s2">&quot;A5BBHDM6X7BQ&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;deviceIdentifier&quot;</span><span class="o">:</span> <span class="s2">&quot;cpY06SskUgo:APA91bFNyTDLC_78xzh5t_Ty0ZHGfRn4gA7Oe78j-b9VcBu-RbDJK7T6hGrZ69z8V3Zv_CMXALIN2tp5117WYwWKLEDGSWuC22dRSrrmC3BmMY0bkOOJP_KdSRyDJDoxJdlpv09mjDYB&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;deviceType&quot;</span><span class="o">:</span> <span class="s2">&quot;IOS&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;deviceName&quot;</span><span class="o">:</span> <span class="s2">&quot;My IPhone 5&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Request JSON Object:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><ul class="first simple">
+<li><strong>applicationId</strong> (<em>string</em>) &#8211; Es el ID de aplicación expedido para iOS en este caso (ver <a class="reference internal" href="auth.html#mibi-app-id"><span class="std std-ref">Application ID</span></a>).</li>
+<li><strong>deviceIdentifier</strong> (<em>string</em>) &#8211; Es el ID único del dispositivo móvil generado por
+la aplicación y expedido para cada instancia de aplicación.</li>
+<li><strong>deviceType</strong> (<em>string</em>) &#8211; Tipo de dispositivo (<em>ANDROID</em>, <em>IOS</em>)</li>
+<li><strong>deviceName</strong> (<em>string</em>) &#8211; Alias del dispositivo</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Request Headers:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><ul class="first last simple">
+<li><em>X-MIBI-VERSION</em> &#8211; La versión 2 registra y recibe <em>deviceIdentifier</em></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Respuesta de Ejemplo</strong></p>
+<p>En caso de tener éxito la aplicación devolverá un JSON como el siguiente</p>
+<div class="highlight-http"><div class="highlight"><pre><span></span><span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">202</span> <span class="ne">Accepted</span>
+<span class="na">Content-Type</span><span class="o">:</span> <span class="l">text/javascript</span>
+
+<span class="p">{</span>
+    <span class="s2">&quot;success&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="s2">&quot;errorCode&quot;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="s2">&quot;message&quot;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="s2">&quot;secret&quot;</span><span class="o">:</span> <span class="s2">&quot;eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwOTAwMzE1NDc0IiwiZXhwIjoxNDQ5MTc3ODUzLCJpYXQiOjE0NDkxNzQyNTMsImlzcyI6InBsYXRhcHAuY29tLnB5IiwianRpIjoiVlpBTEZGRFZKUEozRkJUQ1MzTVEiLCJhdWQiOiJzdHJpbmciLCJtaWJpIjp7ImF1dGhzIjpudWxsLCJ0eXBlIjoiUkVGUkVTSCJ9fQ.cJCq5VJjZSnSx1ZOm_2jq9bULNRiUdc06bKkjBIhbv7qGJoHfXTp4uy0tEwFmGz4Pj3Y37KumUbzTWi_mtGg-A&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;expiration&quot;</span><span class="o">:</span> <span class="mi">1449177853000</span><span class="p">,</span>
+    <span class="s2">&quot;userId&quot;</span><span class="o">:</span> <span class="s2">&quot;KPOIFC4S32QA&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;user&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;KPOIFC4S32QA&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;active&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="s2">&quot;status&quot;</span><span class="o">:</span> <span class="s2">&quot;PENDING&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;phone&quot;</span><span class="o">:</span> <span class="s2">&quot;0900315474&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;pdv&quot;</span><span class="o">:</span> <span class="kc">false</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Status Codes:</th><td class="field-body"><ul class="first simple">
+<li><a class="reference external" href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.3">202 Accepted</a> &#8211; Autenticación exitosa</li>
+<li><a class="reference external" href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.10">409 Conflict</a> &#8211; Faltan parámetros necesarios como el <code class="docutils literal"><span class="pre">deviceIdentifier</span></code>,
+<code class="docutils literal"><span class="pre">deviceType</span></code> ya que se trata de autenticar un <code class="docutils literal"><span class="pre">applicationId</span></code> para
+teléfonos móviles</li>
+<li><a class="reference external" href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.2">401 Unauthorized</a> &#8211; Fallo por credenciales incorrectas</li>
+<li><a class="reference external" href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.4">403 Forbidden</a> &#8211; Nombre de aplicación inválida</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Response JSON Object:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><ul class="first last simple">
+<li><strong>secret</strong> (<em>string</em>) &#8211; Es el <em>refresh token</em> JWT que debe ser incluido en las
+siguientes peticiones</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>Observación:</p>
+<blockquote>
+<div><p><strong>El refresh token puede no emitir access tokens hasta activar el dispositivo</strong></p>
+<p>Si el <code class="docutils literal"><span class="pre">deviceIdentifier</span></code> aún no fue autorizado por el usuario este debe
+ser activado en el <a class="reference internal" href="#activacion-de-moviles">Activación de móviles</a>.</p>
+<p>El <code class="docutils literal"><span class="pre">deviceIdentifier</span></code> también se utiliza para la web para lo cual la
+aplicación Web genera automáticamente este identificador de acuerdo al
+contexto.</p>
+</div></blockquote>
+</div>
+<div class="section" id="obtener-un-token-de-acceso">
+<h3>5.1.2. Obtener un token de acceso<a class="headerlink" href="#obtener-un-token-de-acceso" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Este paso es idéntico al descrito en <a class="reference internal" href="auth-login.html#mibi-auth-simple"><span class="std std-ref">Acceso al sistema</span></a> pero se incluye una
+restricción adicional. Lo nuevo es que si el <em>refresh token</em> no está autorizado
+entonces el servicio devuelve 409.</p>
+<dl class="post">
+<dt id="post--api-token-user-access">
+<code class="descname">POST </code><code class="descname">/api/token/user-access</code><a class="headerlink" href="#post--api-token-user-access" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p><strong>Petición de Ejemplo</strong></p>
+<p>Para conseguir el token de acceso el sistema invocará un POST (sin body).
+Lo importante es siempre incluir el <em>refresh token</em> en el cabecera
+<code class="docutils literal"><span class="pre">X-MIBI-AUTH</span></code>.</p>
+<div class="highlight-http"><div class="highlight"><pre><span></span><span class="nf">POST</span> <span class="nn">/api/token/user-access</span> <span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Host</span><span class="o">:</span> <span class="l">example.com</span>
+<span class="na">Accept</span><span class="o">:</span> <span class="l">application/json, text/javascript</span>
+<span class="na">Content-Type</span><span class="o">:</span> <span class="l">text/javascript</span>
+<span class="na">X-MIBI-AUTH</span><span class="o">:</span> <span class="l">eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwOTAwMzE1NDc0IiwiZXhwIjoxNDQ4NDA3MTA2LCJpYXQiOjE0NDg0MDM1MDYsImlzcyI6InBsYXRhcHAuY29tLnB5IiwianRpIjoiNFJBWVBOVExOV1VKNUNCS0VKNFEiLCJhdWQiOiJkYWFhIiwibWliaSI6eyJhdXRocyI6bnVsbCwidHlwZSI6IlJFRlJFU0gifX0.PFCA2fz3GSPFZ48S3h541gMe5sjzGwgoxqYdq1267_yXh4Az_5-HSiRYs2pY_mk-Sqpywkj76n7QEiJl5rPVgA</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Request Headers:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><ul class="first last simple">
+<li><em>X-MIBI-AUTH</em> &#8211; MIBI <em>refresh token</em> para acceso</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Respuesta de Ejemplo</strong></p>
+<p>En un caso exitoso el servicio devolverá un <em>access token</em>.</p>
+<div class="highlight-http"><div class="highlight"><pre><span></span><span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">202</span> <span class="ne">Accepted</span>
+<span class="na">Content-Type</span><span class="o">:</span> <span class="l">text/javascript</span>
+
+<span class="p">{</span>
+    <span class="s2">&quot;success&quot;</span><span class="o">:</span> <span class="kc">true</span>
+    <span class="s2">&quot;errorCode&quot;</span><span class="o">:</span> <span class="kc">null</span>
+    <span class="s2">&quot;message&quot;</span><span class="o">:</span> <span class="kc">null</span>
+    <span class="s2">&quot;secret&quot;</span><span class="o">:</span> <span class="s2">&quot;eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwOTAwMzE1NDc0IiwiZXhwIjoxNDQ4NDA0NzM0LCJpYXQiOjE0NDg0MDM1MzQsImlzcyI6InBsYXRhcHAuY29tLnB5IiwianRpIjoiNUJBWlRGUEpQNUxaS1dOWk01VEEiLCJhdWQiOiJkYWFhIiwibWliaSI6eyJhdXRocyI6bnVsbCwidHlwZSI6IkVORF9VU0VSX0FDQ0VTUyJ9fQ.VAahdlOmxv3Oj6ql0ORHVOX-iGtIL61lnwqJ69GlyHgyx3h5rPP2Nxy-w3U4YUMyNxTp9-tpbXiW-56xAWFJqg&quot;</span>
+    <span class="s2">&quot;expiration&quot;</span><span class="o">:</span> <span class="mi">1448404734000</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Status Codes:</th><td class="field-body"><ul class="first simple">
+<li><a class="reference external" href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.3">202 Accepted</a> &#8211; Autorización exitosa</li>
+<li><a class="reference external" href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.10">409 Conflict</a> &#8211; En caso de proveerse un <em>refresh token</em> no autorizado
+realizar primeramente <a class="reference internal" href="#activacion-de-moviles">Activación de móviles</a></li>
+<li><a class="reference external" href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.4">403 Forbidden</a> &#8211; En caso de proveerse un <em>refresh token</em> inválido</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Response JSON Object:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><ul class="first last simple">
+<li><strong>secret</strong> (<em>string</em>) &#8211; El atributo secret contiene el token en formato <code class="docutils literal"><span class="pre">JWT</span></code>
+que se debe utilizar en los siguientes llamados.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="activacion-de-moviles">
+<span id="mibi-auth-movil-act"></span><h2>5.2. Activación de móviles<a class="headerlink" href="#activacion-de-moviles" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>La aplicación ya posee un <a class="reference internal" href="glossary.html#term-refresh-token"><span class="xref std std-term">refresh token</span></a> pero aún no está autorizado,
+es decir si requerimos un <a class="reference internal" href="glossary.html#term-access-token"><span class="xref std std-term">access token</span></a> la llamada falla por proveer un
+dispositivo nuevo. El cliente puede tener sólo un <em>refresh token</em> activo por vez
+asociado a un dispositivo.</p>
+<div class="section" id="obtener-un-codigo-de-acceso">
+<h3>5.2.1. Obtener un código de acceso<a class="headerlink" href="#obtener-un-codigo-de-acceso" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Primeramente se procede a realizar una autenticación del dispositivo por medio de
+un SMS (<em>o en el futuro permitir el acceso por un QR Code generado cada X segundos</em>)</p>
+<dl class="post">
+<dt id="post--api-token-refresh-code">
+<code class="descname">POST </code><code class="descname">/api/token/refresh/code</code><a class="headerlink" href="#post--api-token-refresh-code" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p><strong>Petición de Ejemplo</strong></p>
+<p>Primeramente para activar el <em>refresh token</em> la aplicación
+invocará un POST (sin body). Lo importante es incluir el <em>refresh token</em>
+válido obtenido del punto <a class="reference internal" href="#obtener-un-token-de-ingreso">Obtener un token de ingreso</a> en el cabecera de
+autorización <code class="docutils literal"><span class="pre">X-MIBI-AUTH</span></code>.</p>
+<div class="highlight-http"><div class="highlight"><pre><span></span><span class="nf">POST</span> <span class="nn">/api/token/refresh/code</span> <span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Host</span><span class="o">:</span> <span class="l">example.com</span>
+<span class="na">Accept</span><span class="o">:</span> <span class="l">application/json, text/javascript</span>
+<span class="na">Content-Type</span><span class="o">:</span> <span class="l">text/javascript</span>
+<span class="na">X-MIBI-AUTH</span><span class="o">:</span> <span class="l">eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwOTAwMzE1NDc0IiwiZXhwIjoxNDQ4NDA3MTA2LCJpYXQiOjE0NDg0MDM1MDYsImlzcyI6InBsYXRhcHAuY29tLnB5IiwianRpIjoiNFJBWVBOVExOV1VKNUNCS0VKNFEiLCJhdWQiOiJkYWFhIiwibWliaSI6eyJhdXRocyI6bnVsbCwidHlwZSI6IlJFRlJFU0gifX0.PFCA2fz3GSPFZ48S3h541gMe5sjzGwgoxqYdq1267_yXh4Az_5-HSiRYs2pY_mk-Sqpywkj76n7QEiJl5rPVgA</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Request Headers:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><ul class="first last simple">
+<li><em>X-MIBI-AUTH</em> &#8211; El <em>refresh token</em> que requiere ser activado</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Respuesta de Ejemplo</strong></p>
+<p>En el caso exitoso el servicio enviara un SMS con una clave temporal
+de activación de un solo uso (<em>one time pass</em>) al sujeto asociado al <em>token</em>.</p>
+<div class="highlight-http"><div class="highlight"><pre><span></span><span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">201</span> <span class="ne">Created</span>
+<span class="na">Content-Type</span><span class="o">:</span> <span class="l">text/javascript</span>
+
+<span class="p">{</span>
+    <span class="s2">&quot;success&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="s2">&quot;errorCode&quot;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="s2">&quot;message&quot;</span><span class="o">:</span> <span class="kc">null</span>
+    <span class="s2">&quot;expiration&quot;</span><span class="o">:</span> <span class="mi">1448404734000</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Status Codes:</th><td class="field-body"><ul class="first simple">
+<li><a class="reference external" href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.2">201 Created</a> &#8211; Se envío un SMS al propietario del refresh token con la
+clave de activación.</li>
+<li><a class="reference external" href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.4">403 Forbidden</a> &#8211; En caso de proveerse un <em>refresh token</em> inválido.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Response JSON Object:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><ul class="first last simple">
+<li><strong>expiration</strong> (<em>string</em>) &#8211; Tiempo de validez de la clave temporal.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="activar-un-token-de-ingreso">
+<h3>5.2.2. Activar un token de ingreso<a class="headerlink" href="#activar-un-token-de-ingreso" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Siguiendo se procede a realizar una autorización del dispositivo por medio de
+del código recibido por SMS.</p>
+<dl class="put">
+<dt id="put--api-token-refresh">
+<code class="descname">PUT </code><code class="descname">/api/token/refresh</code><a class="headerlink" href="#put--api-token-refresh" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p><strong>Petición de Ejemplo</strong></p>
+<p>Para autorizar el <em>refresh token</em> la aplicación invocará un PUT con los
+detalles del dispositivo y la clave de activación recibida además de
+incluir el <em>refresh token</em> válido obtenido del punto
+<a class="reference internal" href="#obtener-un-token-de-ingreso">Obtener un token de ingreso</a> en el cabecera de
+autorización <code class="docutils literal"><span class="pre">X-MIBI-AUTH</span></code>.</p>
+<div class="highlight-http"><div class="highlight"><pre><span></span><span class="nf">PUT</span> <span class="nn">/api/token/refresh</span> <span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Host</span><span class="o">:</span> <span class="l">example.com</span>
+<span class="na">Accept</span><span class="o">:</span> <span class="l">application/json, text/javascript</span>
+<span class="na">Content-Type</span><span class="o">:</span> <span class="l">text/javascript</span>
+<span class="na">X-MIBI-AUTH</span><span class="o">:</span> <span class="l">eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwOTAwMzE1NDc0IiwiZXhwIjoxNDQ4NDA3MTA2LCJpYXQiOjE0NDg0MDM1MDYsImlzcyI6InBsYXRhcHAuY29tLnB5IiwianRpIjoiNFJBWVBOVExOV1VKNUNCS0VKNFEiLCJhdWQiOiJkYWFhIiwibWliaSI6eyJhdXRocyI6bnVsbCwidHlwZSI6IlJFRlJFU0gifX0.PFCA2fz3GSPFZ48S3h541gMe5sjzGwgoxqYdq1267_yXh4Az_5-HSiRYs2pY_mk-Sqpywkj76n7QEiJl5rPVgA</span>
+
+<span class="p">{</span>
+    <span class="s2">&quot;activationCode&quot;</span><span class="o">:</span> <span class="s2">&quot;812399&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Request JSON Object:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><ul class="first simple">
+<li><strong>activationCode</strong> (<em>string</em>) &#8211; La clave temporal de activación para este
+<em>token</em></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Request Headers:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><ul class="first last simple">
+<li><em>X-MIBI-AUTH</em> &#8211; El <em>refresh token</em> que requiere ser activado</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Respuesta de Ejemplo</strong></p>
+<p>En el caso exitoso el servicio activará el <em>deviceId</em> para el cliente asociado
+al <em>refresh token</em> y el <em>token</em> estará autorizado
+para <a class="reference internal" href="#obtener-un-token-de-acceso">Obtener un token de acceso</a>.</p>
+<div class="highlight-http"><div class="highlight"><pre><span></span><span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">202</span> <span class="ne">Accepted</span>
+<span class="na">Content-Type</span><span class="o">:</span> <span class="l">text/javascript</span>
+
+<span class="p">{</span>
+    <span class="s2">&quot;success&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="s2">&quot;errorCode&quot;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="s2">&quot;message&quot;</span><span class="o">:</span> <span class="kc">null</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Status Codes:</th><td class="field-body"><ul class="first last simple">
+<li><a class="reference external" href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.3">202 Accepted</a> &#8211; El <em>refresh token</em> está autorizado.</li>
+<li><a class="reference external" href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.2">401 Unauthorized</a> &#8211; En caso de proveerse un <em>deviceId</em>
+o <em>activationCode</em> inválido</li>
+<li><a class="reference external" href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.4">403 Forbidden</a> &#8211; En caso de proveerse un <em>refresh token</em> inválido</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="use_cases.html" class="btn btn-neutral float-right" title="6. Casos de Uso de Acceso" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="auth-login.html" class="btn btn-neutral" title="4. Autenticación Básica" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, SODEP S.A..
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

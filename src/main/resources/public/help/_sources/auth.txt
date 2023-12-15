@@ -1,0 +1,117 @@
+.. title::
+    Autenticación con Tokens
+
+.. _mibi-auth:
+
+************************
+Autenticación con Tokens
+************************
+
+MIBI posee varios niveles de seguridad para realizar operaciones dependiendo
+del perfil. Por ejemplo: Las redes se conectarán por VPN
+para tener un nivel de seguridad extra, los usuario de backoffice solamente
+pueden acceder desde ciertos IPs identificados. 
+
+Cualquiera sea el caso todos comparten la misma manera de autenticarse por
+medio de :term:`access token`.
+
+.. _mibi-token:
+
+Tokens
+======
+
+Un :term:`token` es un permiso particular que garantiza al poseedor acceso
+a ciertos recursos. Los *tokens* son firmados por MIBI con una clave secreta,
+por lo tanto no pueden ser alterados.
+
+Esto permite a MIBI realizar la validación en memoria de los *tokens*.
+Por ejemplo: un *token* extemporáneo se rechaza sin mayor chequeo. 
+
+Realizar las validaciones en memoria sin tener que tocar la base de datos
+permite a MIBI escalar con mayor rapidez al ser en gran medida *stateless*. 
+
+Los *tokens* en MIBI siguen el standard :abbr:`JWT (JSON Web Tokens)` [#]_ .
+Existen dos tipos de token:
+
+.. _mibi-token-refresh:
+
+Refresh Token
+--------------
+
+Cuando un usuario se autentica al sistema recibe un :term:`refresh token`.
+Este *token* permite al usuario acceder al sistema por un tiempo prolongado
+pero con pocos permisos de acceso. 
+
+* Un :term:`refresh token` tiene información necesaria para obtener
+  un nuevo :term:`access token`. 
+* Un :term:`access token` sirve para realizar operaciones. 
+
+El *refresh token* se puede utilizar para renovar *access token* y seguir
+accediendo al sistema sin molestar al usuario con un nuevo login.
+Sin embargo, si el *refresh token* vence, será necesario que el usuario ingrese
+de vuelta sus credenciales. 
+
+Dependiendo de la aplicación (vea :ref:`mibi-app-id`) el sistema devolverá un
+*refresh token* con mayor o menor tiempo de vida. Por ejemplo: en la
+aplicación web un *refresh token* puede tener una duración de 12 horas, pero en
+una aplicación móvil podría tener un tiempo de vida cercano a la semana.
+
+Si el usuario no utiliza la aplicación por 1 (una) semana, entonces necesitará
+realizar un nuevo login (esto es aceptable desde el punto de vista UX). Los
+refresh token son especialmente útiles para las aplicaciones móviles en las
+cuales es molesto pedir el usuario en cada momento la autenticación. 
+
+    **Guardar el token de refresh de manera segura**
+
+    En el caso de una aplicación móvil se tendría que guardar en el *key store*,
+    y en el caso de una aplicación Web en los :term:`cookies`
+    (NO guardarlos en *WEB storage*)
+
+.. _mibi-token-access:
+
+Access Token
+------------
+Un :term:`access token` permite al usuario realizar todas las operaciones
+que su perfil permita. En el caso de un :term:`End User` serían:
+
+- listas transacciones,
+- ver saldo,
+- realizar transferencia, etc. 
+
+Un usuario final puede solamente operar sobre los recursos a los que pertenece.
+Sin embargo, existen otros tipos de usuario que tendrán un mayor
+nivel de acceso. Por ejemplo: el Gateway USSD puede operar en nombre de varios
+usuarios, para lo cual necesita tener acceso a los mismos. 
+
+Un token de acceso tiene un tiempo de vida corto, y la aplicación tendrá
+que renovar el token de acceso antes de que este fenezca.Esto crea la sensación
+al usuario de estar siempre conectado, mientras que también brinda un
+alto nivel de seguridad.
+
+    **El token de acceso se debe guardar solo en memoria**
+    
+    Para mayor seguridad el token de acceso se debería de sostener
+    solo en memoria. Recordar
+
+.. _mibi-app-id:
+
+Application ID
+==============
+
+Para que una aplicación pueda realizar un login debe de estar registrada.
+El objetivo de esto es poder controlar los lugares desde los cuales un usuario
+tiene acceso. Se resume en la siguiente tabla los accesos, con el objetivo que
+las diferentes aplicaciones puedan probar el proceso de registro.
+
+==========  ================================= =============== ===========
+Tipo        Descripción                       Application ID  Duración RT
+==========  ================================= =============== ===========
+iOS         Aplicación Móvil para iOS         A5BBHDM6X7BQ    7 días
+Android     Aplicación Móvil para Android     ATUVG4N65F7A    7 días
+Web         Aplicación Web para usuario final XPSC63DK2UAA    8 horas
+Canal USSD  Gateway USSD                      6TU7PXRKOK3A    5 años
+==========  ================================= =============== ===========
+
+.. rubric:: Footnotes
+
+.. [#] JSON Web Tokens. véase `JWT <http://jwt.io>`_

@@ -1,0 +1,275 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>1. API REST &mdash; documentación de MIBI - 1.0</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="documentación de MIBI - 1.0" href="index.html"/>
+        <link rel="next" title="2. Autenticación con Tokens" href="auth.html"/>
+        <link rel="prev" title="MIBI - Developer center" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> MIBI
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Tabla de Contenido</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">1. API REST</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#recursos-del-api">1.1. Recursos del API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#verbos-http-y-respuestas">1.2. Verbos HTTP y respuestas</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="auth.html">2. Autenticación con Tokens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="activate.html">3. Proceso de Activación</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auth-login.html">4. Autenticación Básica</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auth-mobile.html">5. Autenticación Móvil</a></li>
+<li class="toctree-l1"><a class="reference internal" href="use_cases.html">6. Casos de Uso de Acceso</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jwt.html">7. Formato JWT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">8. Glosario</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">MIBI</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>1. API REST</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="api-rest">
+<span id="mibi-api"></span><h1>1. API REST<a class="headerlink" href="#api-rest" title="Enlazar permanentemente con este título">¶</a></h1>
+<p>MIBI utiliza un <a class="reference internal" href="glossary.html#term-api-rest"><span class="xref std std-term">API REST</span></a> para comunicarse con diferentes tipos de
+aplicaciones. EL <a class="reference internal" href="glossary.html#term-api-rest"><span class="xref std std-term">API REST</span></a> es un solo punto de acceso para soportar todas
+las operaciones de manera independiente a la aplicación que está utilizando
+la invocación.</p>
+<blockquote>
+<div><p><strong>SWAGGER</strong></p>
+<p>La documentación autorizada del <a class="reference internal" href="glossary.html#term-api"><span class="xref std std-term">API</span></a> es el Swagger y debería de ser
+la referencia sobre cualquier otra documentación existente.
+Para acceder al swagger puede ingresar a este <a class="reference external" href="/mibi/swagger/index.html">link</a></p>
+</div></blockquote>
+<p>El API de MIBI está diseñado para seguir -en la medida de lo posible- los principios
+propuestos por <a class="reference external" href="http://www.ics.uci.edu/~fielding/">Roy Fielding</a> en <a class="footnote-reference" href="#id3" id="id2">[1]</a>.</p>
+<div class="section" id="recursos-del-api">
+<h2>1.1. Recursos del API<a class="headerlink" href="#recursos-del-api" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Se identifican los siguientes recursos dentro del sistema:</p>
+<dl class="docutils">
+<dt>users</dt>
+<dd>Es un usuario dentro del sistema (cualquier sea su tipo). Un usuario se
+identifica con un ID (<code class="docutils literal"><span class="pre">string</span></code>) aerogenerado por el sistema.</dd>
+<dt>wallet</dt>
+<dd>Un usuario puede poseer un wallet. El wallet está identificado con un
+número de teléfono, y desde este lugar se pueden realizar las operaciones
+de dinero.</dd>
+<dt>pdvs</dt>
+<dd>PDVs (puntos de venta o giro). Son los negocios adheridos que pueden operar
+dentro de la plataforma.</dd>
+<dt>pdv-tx</dt>
+<dd>Transacciones que se realizan desde un PDV. Se hace hincapié en
+diferenciarlas para que aplicaciones dedicadas a usuario final no intenten
+invocarlas.</dd>
+</dl>
+</div>
+<div class="section" id="verbos-http-y-respuestas">
+<h2>1.2. Verbos HTTP y respuestas<a class="headerlink" href="#verbos-http-y-respuestas" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Se utilizan los verbos HTTP para señalizar las diferentes operaciones que el
+sistema puede realizar sobre un recurso particular</p>
+<dl class="docutils">
+<dt>GET</dt>
+<dd>Nunca modifica datos, solamente lee el estado de un recurso y devuelve,
+200 OK en caso de éxito.
+En caso de fallo puede ser 403 (si el recurso no existe)</dd>
+<dt>POST</dt>
+<dd>Crea un nuevo recurso dentro del sistema. Puede ser un nuevo usuario,
+o una nueva transacción.
+En caso que el recurso haya sido creado devuelve 201 CREATED</dd>
+<dt>PUT</dt>
+<dd>Actualiza el recurso identificado por el URL.
+Devuelve 200 OK en caso que la operación haya sido exitosa.</dd>
+<dt>PATCH</dt>
+<dd>Actualiza el recurso identificado por el URL pero de manera parcial.
+Devuelve 200 OK en caso que la operación haya sido exitosa.</dd>
+<dt>DELETE</dt>
+<dd>Elimina el recurso identificado por el URL</dd>
+</dl>
+<p class="rubric">Footnotes</p>
+<table class="docutils footnote" frame="void" id="id3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[1]</a></td><td><a class="reference external" href="https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm">Architectural Styles and the Design of Network-based Software Architectures</a>.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="auth.html" class="btn btn-neutral float-right" title="2. Autenticación con Tokens" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="MIBI - Developer center" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, SODEP S.A..
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

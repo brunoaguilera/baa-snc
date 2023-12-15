@@ -1,0 +1,49 @@
+.. title::
+    Casos de Uso de Acceso
+
+.. _mibi-usecases:
+
+**********************
+Casos de Uso de Acceso
+**********************
+
+En este apartado queremos resumir los 3 casos de uso principales al momento de
+autenticarse al MIBI.
+
+Desde el Teléfono
+=================
+
+Registro de cliente
+-------------------
+
+El caso de uso es cuando el usuario registra su número de celular y aún no
+autorizo ningún dispositivo móvil.
+
+.. image:: images/registro.png
+
+Observación:
+    
+    **Registro desde la Web**
+
+    En caso de que el registro sea por la Web, no se autoriza ningún
+    dispositivo móvil por lo que el escenario sería muy similar a `Ingreso a la web`_
+
+Ingreso a la App
+-----------------
+
+El segundo caso es cuando el usuario está registrado y ya posee un teléfono
+móvil activado y cambio de celular por lo que tiene que volver a activar este
+dispositivo.
+
+.. image:: images/login.png
+
+Desde la Web
+=============
+
+Ingreso a la web
+-----------------
+
+El tercer caso es cuando el usuario está registrado y ya posee un teléfono
+móvil activado, pero realiza un acceso a su billetera desde la web.
+
+.. image:: images/login-web.png

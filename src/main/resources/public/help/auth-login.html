@@ -1,0 +1,418 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Autenticación Básica &mdash; documentación de MIBI - 1.0</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="documentación de MIBI - 1.0" href="index.html"/>
+        <link rel="next" title="5. Autenticación Móvil" href="auth-mobile.html"/>
+        <link rel="prev" title="3. Proceso de Activación" href="activate.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> MIBI
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Tabla de Contenido</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="rest.html">1. API REST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auth.html">2. Autenticación con Tokens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="activate.html">3. Proceso de Activación</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">4. Autenticación Básica</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#acceso-al-sistema">4.1. Acceso al sistema</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#obtener-un-token-de-ingreso">4.1.1. Obtener un token de ingreso</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#obtener-un-token-de-acceso">4.1.2. Obtener un token de acceso</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#invocacion-a-metodos-protegidos-por-access-token">4.1.3. Invocación a métodos protegidos por access token</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#expiracion-de-tokens">4.2. Expiración de tokens</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="auth-mobile.html">5. Autenticación Móvil</a></li>
+<li class="toctree-l1"><a class="reference internal" href="use_cases.html">6. Casos de Uso de Acceso</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jwt.html">7. Formato JWT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">8. Glosario</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">MIBI</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Autenticación Básica</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="autenticacion-basica">
+<h1>4. Autenticación Básica<a class="headerlink" href="#autenticacion-basica" title="Enlazar permanentemente con este título">¶</a></h1>
+<div class="section" id="acceso-al-sistema">
+<span id="mibi-auth-simple"></span><h2>4.1. Acceso al sistema<a class="headerlink" href="#acceso-al-sistema" title="Enlazar permanentemente con este título">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Nota</p>
+<p class="last">Esta sección explica el mecanismo de autenticación básico y simple que se
+liberó como VERSION 1.0 del método de acceso. Para los ingresos via Web y
+Móvil se recomienda seguir la guía que incluye los casos y requerimientos
+especiales para estos dos canales.</p>
+</div>
+<div class="section" id="obtener-un-token-de-ingreso">
+<h3>4.1.1. Obtener un token de ingreso<a class="headerlink" href="#obtener-un-token-de-ingreso" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>En este apartado queremos resumir los <em>endpoints</em> y el orden en que
+deben ser invocados, para que un usuario consiga una autenticación exitosa.</p>
+<dl class="post">
+<dt id="post--api-login">
+<code class="descname">POST </code><code class="descname">/api/login</code><a class="headerlink" href="#post--api-login" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p><strong>Petición de Ejemplo</strong></p>
+<p>El primer paso es invocar el método de login. Se realiza un login con la
+aplicación web.</p>
+<div class="highlight-http"><div class="highlight"><pre><span></span><span class="nf">POST</span> <span class="nn">/api/login</span> <span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Host</span><span class="o">:</span> <span class="l">example.com</span>
+<span class="na">Accept</span><span class="o">:</span> <span class="l">application/json, text/javascript</span>
+<span class="na">Content-Type</span><span class="o">:</span> <span class="l">text/javascript</span>
+
+<span class="p">{</span>
+    <span class="s2">&quot;username&quot;</span><span class="o">:</span> <span class="s2">&quot;0900315474&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;password&quot;</span><span class="o">:</span> <span class="s2">&quot;682048&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;applicationId&quot;</span><span class="o">:</span> <span class="s2">&quot;XPSC63DK2UAA&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Request JSON Object:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><ul class="first last simple">
+<li><strong>applicationId</strong> (<em>string</em>) &#8211; Es el ID de aplicación expedido para cada
+tipo (ver <a class="reference internal" href="auth.html#mibi-app-id"><span class="std std-ref">Application ID</span></a>).</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Respuesta de Ejemplo</strong></p>
+<p>En caso de tener éxito la aplicación devolverá un JSON como el siguiente</p>
+<div class="highlight-http"><div class="highlight"><pre><span></span><span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">202</span> <span class="ne">Accepted</span>
+<span class="na">Content-Type</span><span class="o">:</span> <span class="l">text/javascript</span>
+
+<span class="p">{</span>
+    <span class="s2">&quot;success&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="s2">&quot;errorCode&quot;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="s2">&quot;message&quot;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="s2">&quot;secret&quot;</span><span class="o">:</span> <span class="s2">&quot;eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwOTAwMzE1NDc0IiwiZXhwIjoxNDQ5MTc3ODUzLCJpYXQiOjE0NDkxNzQyNTMsImlzcyI6InBsYXRhcHAuY29tLnB5IiwianRpIjoiVlpBTEZGRFZKUEozRkJUQ1MzTVEiLCJhdWQiOiJzdHJpbmciLCJtaWJpIjp7ImF1dGhzIjpudWxsLCJ0eXBlIjoiUkVGUkVTSCJ9fQ.cJCq5VJjZSnSx1ZOm_2jq9bULNRiUdc06bKkjBIhbv7qGJoHfXTp4uy0tEwFmGz4Pj3Y37KumUbzTWi_mtGg-A&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;expiration&quot;</span><span class="o">:</span> <span class="mi">1449177853000</span><span class="p">,</span>
+    <span class="s2">&quot;userId&quot;</span><span class="o">:</span> <span class="s2">&quot;KPOIFC4S32QA&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;user&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;KPOIFC4S32QA&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;active&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="s2">&quot;status&quot;</span><span class="o">:</span> <span class="s2">&quot;PENDING&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;phone&quot;</span><span class="o">:</span> <span class="s2">&quot;0900315474&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;pdv&quot;</span><span class="o">:</span> <span class="kc">false</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Status Codes:</th><td class="field-body"><ul class="first simple">
+<li><a class="reference external" href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.3">202 Accepted</a> &#8211; Autenticación exitosa</li>
+<li><a class="reference external" href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.2">401 Unauthorized</a> &#8211; Fallo por credenciales incorrectas</li>
+<li><a class="reference external" href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.4">403 Forbidden</a> &#8211; Nombre de aplicación inválida</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Response JSON Object:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><ul class="first last simple">
+<li><strong>secret</strong> (<em>string</em>) &#8211; Es el token JWT que debe ser incluido en las
+siguientes peticiones</li>
+<li><strong>userId</strong> (<em>string</em>) &#8211; El ID del usuario para que se puedan invocar los
+métodos que correspondan a este usuario</li>
+<li><strong>status</strong> (<em>string</em>) &#8211; El estado del usuario</li>
+<li><strong>pdv</strong> (<em>boolean</em>) &#8211; El <em>flag</em> que indica si es agente o usuario final</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>Observación:</p>
+<blockquote>
+<div><p><strong>El status del usuario es CLAVE para saber si puede operar</strong></p>
+<p>Si el <code class="docutils literal"><span class="pre">status</span></code> del usuario es PENDING o CREATING entonces no está
+activo y debe ser activado.
+Ver <a class="reference internal" href="activate.html#mibi-activate"><span class="std std-ref">Proceso de Activación</span></a></p>
+</div></blockquote>
+</div>
+<div class="section" id="obtener-un-token-de-acceso">
+<h3>4.1.2. Obtener un token de acceso<a class="headerlink" href="#obtener-un-token-de-acceso" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>La aplicación ya posee un <a class="reference internal" href="glossary.html#term-refresh-token"><span class="xref std std-term">refresh token</span></a> con el cual intentará conseguir
+un <a class="reference internal" href="glossary.html#term-access-token"><span class="xref std std-term">access token</span></a>. El <em>refresh token</em> puede ser revocado (e.j. logout
+del usuario, o una denuncia de robo).</p>
+<dl class="post">
+<dt id="post--api-token-user-access">
+<code class="descname">POST </code><code class="descname">/api/token/user-access</code><a class="headerlink" href="#post--api-token-user-access" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p><strong>Petición de Ejemplo</strong></p>
+<p>Para conseguir el token de acceso el sistema invocará un POST (sin body).
+Lo importante es incluir el <em>refresh token</em> en el cabecera de
+autorización <code class="docutils literal"><span class="pre">X-MIBI-AUTH</span></code>.</p>
+<div class="highlight-http"><div class="highlight"><pre><span></span><span class="nf">POST</span> <span class="nn">/api/token/user-access</span> <span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Host</span><span class="o">:</span> <span class="l">example.com</span>
+<span class="na">Accept</span><span class="o">:</span> <span class="l">application/json, text/javascript</span>
+<span class="na">Content-Type</span><span class="o">:</span> <span class="l">text/javascript</span>
+<span class="na">X-MIBI-AUTH</span><span class="o">:</span> <span class="l">eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwOTAwMzE1NDc0IiwiZXhwIjoxNDQ4NDA3MTA2LCJpYXQiOjE0NDg0MDM1MDYsImlzcyI6InBsYXRhcHAuY29tLnB5IiwianRpIjoiNFJBWVBOVExOV1VKNUNCS0VKNFEiLCJhdWQiOiJkYWFhIiwibWliaSI6eyJhdXRocyI6bnVsbCwidHlwZSI6IlJFRlJFU0gifX0.PFCA2fz3GSPFZ48S3h541gMe5sjzGwgoxqYdq1267_yXh4Az_5-HSiRYs2pY_mk-Sqpywkj76n7QEiJl5rPVgA</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Request Headers:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><ul class="first last simple">
+<li><em>X-MIBI-AUTH</em> &#8211; MIBI <em>refresh token</em> para acceso</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Respuesta de Ejemplo</strong></p>
+<p>En un caso exitoso el servicio devolverá un <em>access token</em>, el cual
+puede ser utilizado para invocar todos los métodos a los que tenga acceso
+el cliente.</p>
+<div class="highlight-http"><div class="highlight"><pre><span></span><span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">202</span> <span class="ne">Accepted</span>
+<span class="na">Content-Type</span><span class="o">:</span> <span class="l">text/javascript</span>
+
+<span class="p">{</span>
+    <span class="s2">&quot;success&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="s2">&quot;errorCode&quot;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="s2">&quot;message&quot;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="s2">&quot;secret&quot;</span><span class="o">:</span> <span class="s2">&quot;eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwOTAwMzE1NDc0IiwiZXhwIjoxNDQ4NDA0NzM0LCJpYXQiOjE0NDg0MDM1MzQsImlzcyI6InBsYXRhcHAuY29tLnB5IiwianRpIjoiNUJBWlRGUEpQNUxaS1dOWk01VEEiLCJhdWQiOiJkYWFhIiwibWliaSI6eyJhdXRocyI6bnVsbCwidHlwZSI6IkVORF9VU0VSX0FDQ0VTUyJ9fQ.VAahdlOmxv3Oj6ql0ORHVOX-iGtIL61lnwqJ69GlyHgyx3h5rPP2Nxy-w3U4YUMyNxTp9-tpbXiW-56xAWFJqg&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;expiration&quot;</span><span class="o">:</span> <span class="mi">1448404734000</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Status Codes:</th><td class="field-body"><ul class="first simple">
+<li><a class="reference external" href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.3">202 Accepted</a> &#8211; Autorización exitosa</li>
+<li><a class="reference external" href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.4">403 Forbidden</a> &#8211; En caso de proveerse un <em>refresh token</em> inválido</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Response JSON Object:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><ul class="first last simple">
+<li><strong>secret</strong> (<em>string</em>) &#8211; El atributo secret contiene el token en formato <code class="docutils literal"><span class="pre">JWT</span></code>
+que se debe utilizar en los siguientes llamados.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="invocacion-a-metodos-protegidos-por-access-token">
+<h3>4.1.3. Invocación a métodos protegidos por access token<a class="headerlink" href="#invocacion-a-metodos-protegidos-por-access-token" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Para hacer una invocación a cualquier método de acceso de usuario se debe
+realizar la invocación con un token de acceso. Este token de acceso debe
+incluirse en la cabecera http en el atributo <code class="docutils literal"><span class="pre">X-MIBI-AUTH</span></code></p>
+</div>
+</div>
+<div class="section" id="expiracion-de-tokens">
+<h2>4.2. Expiración de tokens<a class="headerlink" href="#expiracion-de-tokens" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Los token devueltos están en formato <a class="reference external" href="http://jwt.io">JWT</a>
+(ver <a class="reference internal" href="jwt.html#mibi-jwt-format"><span class="std std-ref">Componentes</span></a>) y se podría leer toda la información
+desempaquetando el token. Para comodidad del programador se presenta
+siempre la expiración cuando un token es devuelto. Ejemplo:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;success&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="s2">&quot;errorCode&quot;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="s2">&quot;message&quot;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="s2">&quot;secret&quot;</span><span class="o">:</span> <span class="s2">&quot;eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwOTAwMzE1NDc0IiwiZXhwIjoxNDQ4NDA0NzM0LCJpYXQiOjE0NDg0MDM1MzQsImlzcyI6InBsYXRhcHAuY29tLnB5IiwianRpIjoiNUJBWlRGUEpQNUxaS1dOWk01VEEiLCJhdWQiOiJkYWFhIiwibWliaSI6eyJhdXRocyI6bnVsbCwidHlwZSI6IkVORF9VU0VSX0FDQ0VTUyJ9fQ.VAahdlOmxv3Oj6ql0ORHVOX-iGtIL61lnwqJ69GlyHgyx3h5rPP2Nxy-w3U4YUMyNxTp9-tpbXiW-56xAWFJqg&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;expiration&quot;</span><span class="o">:</span> <span class="mi">1448404734000</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>El atributo <em>expiration</em> es la cantidad de milisegundos desde el el tiempo
+conocido como &#8220;the epoch&#8221;, Enero 1, 1970, 00:00:00 GMT. Esto permite en un
+lenguaje como <em>Java</em> o <em>Javascript</em> escribir</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="k">new</span> <span class="nb">Date</span><span class="p">(</span><span class="nx">expiration</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>El sistema debería de escribir un <em>timeout</em> y refrescar el token antes de
+que expire, para garantizarle al usuario una buena experiencia.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="auth-mobile.html" class="btn btn-neutral float-right" title="5. Autenticación Móvil" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="activate.html" class="btn btn-neutral" title="3. Proceso de Activación" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, SODEP S.A..
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

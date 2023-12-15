@@ -1,0 +1,45 @@
+.. title::
+    Glosario
+
+********
+Glosario
+********
+
+.. glossary::
+    End User
+        Usuario final de la billetera
+    
+    Usuario PDV
+        Agentes intermediarios transacciones de billetera
+    
+    Back Office
+        Usuarios internos que administran las billeteras
+        
+    API
+        Application programming interfaces (APIs) proveen mecanismos de
+        transferencia de datos y señalizado entre aplicaciones en un formato
+        apto para maquinas
+    
+    API REST
+        :term:`API` en forma de Representation State Transfer
+    
+    token
+        Clave efímera de seguridad 
+    
+    refresh token
+        Token de actualización de credenciales. Su emisión requiere
+        una autenticación exitosa. Tiene un tiempo de duración moderado.
+    
+    access token
+        Token de acceso. Su emisión requiere de un *refresh token* válido.
+        Tiene un tiempo de duración corto.
+    
+    MIBI
+        Middleware de Billeteras Electrónicas
+
+    cookies
+        Persistencia de clave y valor en el agente de usuario (navegador)
+
+    JWT
+        JSON Web Tokens
+    

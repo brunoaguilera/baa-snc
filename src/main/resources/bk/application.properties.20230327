@@ -1,0 +1,33 @@
+##
+# Database configuration
+##
+spring.datasource.url=jdbc:postgresql://127.0.0.1:5432/postgres
+spring.datasource.username=baguilera
+spring.datasource.password=desaBaa
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.datasource.type=org.apache.tomcat.jdbc.pool.DataSource
+spring.datasource.tomcat.initial-size=2
+spring.datasource.tomcat.max-wait=20000
+spring.datasource.tomcat.max-active=20
+spring.datasource.tomcat.max-idle=5
+spring.datasource.tomcat.min-idle=1
+spring.datasource.tomcat.default-auto-commit=true   
+spring.datasource.tomcat.remove-abandoned=true
+spring.datasource.tomcat.log-abandoned=true
+spring.datasource.tomcat.test-on-borrow=true
+spring.datasource.tomcat.validation-query=select current_timestamp
+
+# Agregado por MIBI-466
+spring.datasource.remove-abandoned-timeout=80
+spring.datasource.connection-test-query="SELECT 1"
+spring.datasource.test-while-idle=true
+
+spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.show-sql=false
+
+spring.jackson.serialization.write-dates-as-timestamps:false
+spring.jackson.serialization.INDENT_OUTPUT=true
+
+
+## Logging
+logging.config:/opt/tomcat/conf/baa-snc-logback.xml

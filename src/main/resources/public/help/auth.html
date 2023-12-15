@@ -1,0 +1,338 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Autenticación con Tokens &mdash; documentación de MIBI - 1.0</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="documentación de MIBI - 1.0" href="index.html"/>
+        <link rel="next" title="3. Proceso de Activación" href="activate.html"/>
+        <link rel="prev" title="1. API REST" href="rest.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> MIBI
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Tabla de Contenido</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="rest.html">1. API REST</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2. Autenticación con Tokens</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#tokens">2.1. Tokens</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#refresh-token">2.1.1. Refresh Token</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#access-token">2.1.2. Access Token</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#application-id">2.2. Application ID</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="activate.html">3. Proceso de Activación</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auth-login.html">4. Autenticación Básica</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auth-mobile.html">5. Autenticación Móvil</a></li>
+<li class="toctree-l1"><a class="reference internal" href="use_cases.html">6. Casos de Uso de Acceso</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jwt.html">7. Formato JWT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">8. Glosario</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">MIBI</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Autenticación con Tokens</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="autenticacion-con-tokens">
+<span id="mibi-auth"></span><h1>2. Autenticación con Tokens<a class="headerlink" href="#autenticacion-con-tokens" title="Enlazar permanentemente con este título">¶</a></h1>
+<p>MIBI posee varios niveles de seguridad para realizar operaciones dependiendo
+del perfil. Por ejemplo: Las redes se conectarán por VPN
+para tener un nivel de seguridad extra, los usuario de backoffice solamente
+pueden acceder desde ciertos IPs identificados.</p>
+<p>Cualquiera sea el caso todos comparten la misma manera de autenticarse por
+medio de <a class="reference internal" href="glossary.html#term-access-token"><span class="xref std std-term">access token</span></a>.</p>
+<div class="section" id="tokens">
+<span id="mibi-token"></span><h2>2.1. Tokens<a class="headerlink" href="#tokens" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Un <a class="reference internal" href="glossary.html#term-token"><span class="xref std std-term">token</span></a> es un permiso particular que garantiza al poseedor acceso
+a ciertos recursos. Los <em>tokens</em> son firmados por MIBI con una clave secreta,
+por lo tanto no pueden ser alterados.</p>
+<p>Esto permite a MIBI realizar la validación en memoria de los <em>tokens</em>.
+Por ejemplo: un <em>token</em> extemporáneo se rechaza sin mayor chequeo.</p>
+<p>Realizar las validaciones en memoria sin tener que tocar la base de datos
+permite a MIBI escalar con mayor rapidez al ser en gran medida <em>stateless</em>.</p>
+<p>Los <em>tokens</em> en MIBI siguen el standard <abbr title="JSON Web Tokens">JWT</abbr> <a class="footnote-reference" href="#id2" id="id1">[1]</a> .
+Existen dos tipos de token:</p>
+<div class="section" id="refresh-token">
+<span id="mibi-token-refresh"></span><h3>2.1.1. Refresh Token<a class="headerlink" href="#refresh-token" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Cuando un usuario se autentica al sistema recibe un <a class="reference internal" href="glossary.html#term-refresh-token"><span class="xref std std-term">refresh token</span></a>.
+Este <em>token</em> permite al usuario acceder al sistema por un tiempo prolongado
+pero con pocos permisos de acceso.</p>
+<ul class="simple">
+<li>Un <a class="reference internal" href="glossary.html#term-refresh-token"><span class="xref std std-term">refresh token</span></a> tiene información necesaria para obtener
+un nuevo <a class="reference internal" href="glossary.html#term-access-token"><span class="xref std std-term">access token</span></a>.</li>
+<li>Un <a class="reference internal" href="glossary.html#term-access-token"><span class="xref std std-term">access token</span></a> sirve para realizar operaciones.</li>
+</ul>
+<p>El <em>refresh token</em> se puede utilizar para renovar <em>access token</em> y seguir
+accediendo al sistema sin molestar al usuario con un nuevo login.
+Sin embargo, si el <em>refresh token</em> vence, será necesario que el usuario ingrese
+de vuelta sus credenciales.</p>
+<p>Dependiendo de la aplicación (vea <a class="reference internal" href="#mibi-app-id"><span class="std std-ref">Application ID</span></a>) el sistema devolverá un
+<em>refresh token</em> con mayor o menor tiempo de vida. Por ejemplo: en la
+aplicación web un <em>refresh token</em> puede tener una duración de 12 horas, pero en
+una aplicación móvil podría tener un tiempo de vida cercano a la semana.</p>
+<p>Si el usuario no utiliza la aplicación por 1 (una) semana, entonces necesitará
+realizar un nuevo login (esto es aceptable desde el punto de vista UX). Los
+refresh token son especialmente útiles para las aplicaciones móviles en las
+cuales es molesto pedir el usuario en cada momento la autenticación.</p>
+<blockquote>
+<div><p><strong>Guardar el token de refresh de manera segura</strong></p>
+<p>En el caso de una aplicación móvil se tendría que guardar en el <em>key store</em>,
+y en el caso de una aplicación Web en los <a class="reference internal" href="glossary.html#term-cookies"><span class="xref std std-term">cookies</span></a>
+(NO guardarlos en <em>WEB storage</em>)</p>
+</div></blockquote>
+</div>
+<div class="section" id="access-token">
+<span id="mibi-token-access"></span><h3>2.1.2. Access Token<a class="headerlink" href="#access-token" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Un <a class="reference internal" href="glossary.html#term-access-token"><span class="xref std std-term">access token</span></a> permite al usuario realizar todas las operaciones
+que su perfil permita. En el caso de un <a class="reference internal" href="glossary.html#term-end-user"><span class="xref std std-term">End User</span></a> serían:</p>
+<ul class="simple">
+<li>listas transacciones,</li>
+<li>ver saldo,</li>
+<li>realizar transferencia, etc.</li>
+</ul>
+<p>Un usuario final puede solamente operar sobre los recursos a los que pertenece.
+Sin embargo, existen otros tipos de usuario que tendrán un mayor
+nivel de acceso. Por ejemplo: el Gateway USSD puede operar en nombre de varios
+usuarios, para lo cual necesita tener acceso a los mismos.</p>
+<p>Un token de acceso tiene un tiempo de vida corto, y la aplicación tendrá
+que renovar el token de acceso antes de que este fenezca.Esto crea la sensación
+al usuario de estar siempre conectado, mientras que también brinda un
+alto nivel de seguridad.</p>
+<blockquote>
+<div><p><strong>El token de acceso se debe guardar solo en memoria</strong></p>
+<p>Para mayor seguridad el token de acceso se debería de sostener
+solo en memoria. Recordar</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="application-id">
+<span id="mibi-app-id"></span><h2>2.2. Application ID<a class="headerlink" href="#application-id" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Para que una aplicación pueda realizar un login debe de estar registrada.
+El objetivo de esto es poder controlar los lugares desde los cuales un usuario
+tiene acceso. Se resume en la siguiente tabla los accesos, con el objetivo que
+las diferentes aplicaciones puedan probar el proceso de registro.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="48%" />
+<col width="22%" />
+<col width="16%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Tipo</th>
+<th class="head">Descripción</th>
+<th class="head">Application ID</th>
+<th class="head">Duración RT</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>iOS</td>
+<td>Aplicación Móvil para iOS</td>
+<td>A5BBHDM6X7BQ</td>
+<td>7 días</td>
+</tr>
+<tr class="row-odd"><td>Android</td>
+<td>Aplicación Móvil para Android</td>
+<td>ATUVG4N65F7A</td>
+<td>7 días</td>
+</tr>
+<tr class="row-even"><td>Web</td>
+<td>Aplicación Web para usuario final</td>
+<td>XPSC63DK2UAA</td>
+<td>8 horas</td>
+</tr>
+<tr class="row-odd"><td>Canal USSD</td>
+<td>Gateway USSD</td>
+<td>6TU7PXRKOK3A</td>
+<td>5 años</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Footnotes</p>
+<table class="docutils footnote" frame="void" id="id2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>JSON Web Tokens. véase <a class="reference external" href="http://jwt.io">JWT</a></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="activate.html" class="btn btn-neutral float-right" title="3. Proceso de Activación" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="rest.html" class="btn btn-neutral" title="1. API REST" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, SODEP S.A..
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

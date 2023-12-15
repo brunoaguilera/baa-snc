@@ -1,0 +1,123 @@
+.. title::
+    Proceso de Activación
+
+.. _mibi-activate:
+
+*********************
+Proceso de Activación
+*********************
+
+En este apartado queremos resumir los endpoints y el orden en que deben ser
+invocados para que una persona pueda realizar una activación exitosa.
+
+Activación
+==========
+
+Registro
+---------
+
+El primer paso es invocar el método de registro.
+
+.. http:post:: /api/users
+
+    **Petición de Ejemplo**
+    
+    .. sourcecode:: http
+    
+        POST /api/users HTTP/1.1
+        Host: example.com
+        Accept: application/json, text/javascript
+        Content-Type: text/javascript
+     
+        {
+            phoneNumber: "0991200000"
+        }
+    
+    :<json string phoneNumber: Número de móvil a registrar
+    
+    **Respuesta de Ejemplo**
+    
+    .. sourcecode:: http
+        
+        HTTP/1.1 201 Created
+        Content-Type: text/javascript
+        
+        {
+          "success" : true,
+          "errorCode" : null,
+          "message" : null
+        }
+    
+    :statuscode 201: Registro exitoso
+    :statuscode 400: Número de móvil inválido
+    :statuscode 409: El número ya esta registrado
+
+El anterior POST realizaría un registro de una billetera. En caso de fallar el
+registro el se devolverá el código 409, Si la billetera ya fue registrada. 
+
+En caso de tener éxito la aplicación devolverá un JSON como la respuesta y
+el código 201. La billetera no se puede utilizar para hacer transferencias,
+puesto que aún no ha sido activada
+
+    **El status del usuario es CLAVE para saber si puede operar**
+
+    Si el status del usuario es *PENDING* o *CREATING* entonces no está activo
+    y debe ser activado. Se debe presentar al usuario el/los formulario/s
+    correspondientes para realizar la activación. Si el usuario está *ACTIVE*
+    entonces puede operar.
+
+Confirmación de Clave
+---------------------
+
+El segundo paso es confirmar el número de activación enviado por SMS al
+propietario del teléfono, para esto se debe realizar un login descrito en :ref:`mibi-auth-simple`.
+
+
+Creación de Billetera
+----------------------
+
+Finalmente se realiza la activación invocando al método descrito abajo. En caso
+de fallar el sistema devolverá 409. En caso de tener éxito la aplicación
+devolverá un JSON como la respuesta y el código 200.
+
+.. http:post:: /api/wallets/(int:phoneNumber)/activate
+
+    **Petición de Ejemplo**
+
+    .. sourcecode:: http
+    
+        POST /api/wallets/0991200000/activate HTTP/1.1
+        Host: example.com
+        Accept: application/json, text/javascript
+        Content-Type: text/javascript
+    
+        {
+          "personId":"91200",
+          "firstName":"Luis",
+          "lastName":"Cano",
+          "birthDate":"1998-12-12",
+          "pin":"222222"
+        }
+    
+    :param phoneNumber: Número de móvil
+    :type phoneNumber: string
+    :<json string personId: Documento de identidad
+    :<json string birthDate: Fecha de nacimiento
+    :<json string pin: numero de pin inicial
+
+    **Respuesta de Ejemplo**
+    
+    .. sourcecode:: http
+    
+        HTTP/1.1 201 Created
+        Content-Type: text/javascript
+
+        {
+          "success" : true,
+          "errorCode" : null,
+          "message" : null
+        }
+    
+    :statuscode 201: Registro exitoso
+    :statuscode 400: Número de móvil inválido
+    :statuscode 404: El número no esta registrado

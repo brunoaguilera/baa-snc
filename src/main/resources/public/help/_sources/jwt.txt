@@ -1,0 +1,83 @@
+.. title::
+    Formato JWT
+
+***********
+Formato JWT
+***********
+
+.. _mibi-jwt-format:
+
+Componentes
+===========
+
+Cada *refresh/access token* es un :term:`JWT` es un objeto `JSON` codificado que
+posee tres partes:
+
+- *header*,
+- *payload*,
+- *signature*.
+
+Lo siguiente es un *access token* generado en formato JWT utilizando la
+codificación descrita
+
+.. code-block:: html
+
+    eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwOTAwMzE1NDc0IiwiZXhwIjoxNDQ4NDA0NzM0LCJpYXQiOjE0NDg0MDM1MzQsImlzcyI6InBsYXRhcHAuY29tLnB5IiwianRpIjoiNUJBWlRGUEpQNUxaS1dOWk01VEEiLCJhdWQiOiJkYWFhIiwibWliaSI6eyJhdXRocyI6bnVsbCwidHlwZSI6IkVORF9VU0VSX0FDQ0VTUyJ9fQ.VAahdlOmxv3Oj6ql0ORHVOX-iGtIL61lnwqJ69GlyHgyx3h5rPP2Nxy-w3U4YUMyNxTp9-tpbXiW-56xAWFJqg
+
+Si inspeccionamos su contenido desde  `jwt.io <http://jwt.io>`_, y exploramos su contenido:
+
+Header
+------
+
+.. code-block:: javascript
+
+    {
+      "alg": "HS512"
+    }
+
+La cabecera codifica el formato del *token*:
+
+alg
+    el algoritmo utilizado para codificar el token. Debería ser “HS512”.
+typ
+    el tipo del token. Ej. "JWT".
+
+Payload
+-------
+
+.. code-block:: javascript
+
+    {
+      "sub": "0900315474",
+      "exp": 1448404734,
+      "iat": 1448403534,
+      "iss": "platapp.com.py",
+      "jti": "5BAZTFPJP5LZKWNZM5TA",
+      "aud": "daaa",
+      "mibi": {
+        "auths": null,
+        "type": "END_USER_ACCESS"
+      }
+    }
+
+El cuerpo describe la autorización concedida:
+
+jti
+    identificador único del token. 
+iss
+    emisor del token.
+sub
+    identificador de la cuenta que se provee acceso.
+exp
+    la marca de tiempo de cuando el token expira.
+mibi
+    la lista de permisos concedidos que posee el token.
+auths
+    credenciales proporcionadas
+type:
+    el tipo de acceso
+    
+Signature
+----------
+
+La firma es un *hash* que sirve para verificar la autenticidad del token.

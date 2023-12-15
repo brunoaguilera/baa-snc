@@ -1,0 +1,566 @@
+# Change Log
+All notable changes to this project will be documented in this file.
+This project adheres to [Semantic Versioning](http://semver.org/).
+
+#Version actual = 0.30.3
+
+##[0.30.3] - 2018-04-18
+##Features
+-- Agredado de trim() en envio de pin para verificacion
+-- Agregado de labels nuevos en db-changelog
+-- Agregado de nuevo tipo de operacion para comision al 2% y al 2.0408%
+-- Validacion para activacion de billeteras prospect
+-- Se parametriza la cantidad de digitos de OTP
+-- Genera facturas para comisiones desde 11Gs
+-- Monto minimo se verifica a traves de un parametros
+
+## [0.30.1] - 2018-02-08
+## Features
+-- Servicio /api/peopleIdentification/fullId que obtiene la
+identificacion de una persona en base a su CI. Si la persona
+no está registrada, consulta en la BD de la policia.
+-- Mejoras a servicios de people identification luego de PenTest
+
+## [0.30.0] - 2017-12-20
+## Features
+-- Servicios de módulo de transferencia/acreditación masiva
+
+## [0.29.3] - 2017-11-24
+## Features
+-- Integramos servicio de Courier para envio de mensajes SMS
+
+## [0.29.2] - 2017-11-09
+## BugFix
+-- Deshabilitamos acceso a Swagger
+
+## [0.29.1] - 2017-11-08
+## Features
+-- Cambio de url y parámetros de servicio CRM
+
+## [0.29.0] - 2017-10-27
+## Features
+-- Mantiene tokens de refresh en memoria y base de datos
+// TODO Completar
+## BugFix
+
+## [0.28.5] - 2017-03-23
+## BugFix
+-- Ajustes en los tests
+-- Se invalida un accessToken si su refresh ya no existe
+
+## [0.28.4] - 2017-02-16
+## Features
+-- Se elimina la porción "a Gs." del detalle de factura
+-- Redondeo HALF_UP para doubles de los DTO de respuesta
+## BugFix
+-- Se sacan los decimales para el detalle de factura 
+
+
+## [0.28.3] - 2017-02-07
+## Features
+-- Los valores monetarios se devuelven sin decimales
+-- Los movimientos tienen un estado asociado
+
+## Bugfix
+-- Envio de número de teléfono a JCARD
+-- Corrección de scripts utilitarios
+
+## [0.28.0] - 2017-01-20
+## Features
+-- Verificación de identificador de entidad para validar consumer
+-- Se agrega el nuevo TAG cashInATM
+-- Valor del titulo del movimiento basado en configuracion por base de datos
+-- Envio del número de voucher (clientRrn) a JCARD
+-- Un perfil Backoffice puede consultar /api/wallet/{walletNumber}/statements
+
+
+## Bugfix
+-- Corrección de monto sumarizado debido al calculo de monto - comision
+-- Corrección de envio de mensajes SMS en varias operaciones
+-- Corrección del formato fecha en ISO para JSON
+-- Corrección de extración ATM
+
+## [0.27.1] - 2016-12-22
+### Features
+-- Generación automatizada de reglas
+-- Mejora de organización de código
+
+## Bugfix
+-- Corrección para el envio de SMS al retirar el dinero
+
+#Version actual = 0.27.0
+## [0.27.0] - 2016-12-09
+### Features
+-- Emisión, visualización y reversión de facturas
+-- Firma de cabeceras
+-- Débito de cuenta bancaria con SMS/USSD
+-- Débito desde cuentas externas con SMS/USSD
+-- Documentación de tópicos de seguridad
+
+## Bugfix
+-- Cancelación de transacciones pendientes
+-- Reinicio de contador de bloqueo
+-- Corrección de tag posAtm
+
+#Version actual = 0.26.6
+## [0.26.6] - 2016-09-26
+### Features
+-- Mejora de manejo de credenciales
+-- Envio de informacion adicional para operaciones con Bancos
+
+### Bugfix
+-- Corrección de permisos para operaciones con Bancos
+-- Corrección de envio de notificaciones PUSH
+-- Corrección de registro de dispositivos repetidos para PUSH
+
+#Version actual = 0.26.0
+## [0.26.0] - 2016-08-25
+### Features
+-- Extracción de dinero con confirmación via SMS
+-- Débito en POS con confirmación via SMS
+-- Registro de contacto para usuarios finales
+-- Trabajo programado para eliminar cuentas no activadas
+-- Politica de cambio de PIN
+-- Verificación de credenciales válidas al momento de operar (envio y retiro)
+
+### Breaking
+-- Refactoreo de algunos módulos
+-- Mejora de los Test para adecuarse a los cambios de politica de PIN y control de límites de saldo
+-- Mejora en el controlador de excepciones
+
+### Bugfix
+-- Corrección de error al insertar datos en PeopleIdentification
+-- Corrección de respuesta al consultar datos de PeopleIdentification
+-- Corrección del controlador de excepciones para no lanzar excepciones
+
+
+## [0.25.0] - 2016-07-25
+### Features
+-- PIN encriptado implementado en el middleware y en la web. Se utiliza un mecanismo de HASH entre las partes.
+-- Se dispone de un PIN Pad para el ingreso en la Web de usuarios y agentes.
+-- Los agentes le agregamos los campos para el RUC
+-- Poder agregar, eliminar y modificar contactos a nivel de servicios
+-- Consulta de datos de detalles de transacciones a traves de /api/wallet/{numero}/statement/{rrn}.
+-- Cargar tickets CRM desde la web de Agentes
+-- Los créditos desde entidades externas permiten guardar datos adicionales.
+-- Google analytics para el sitio y las apps Web
+-- Request signing en las app Web, el MDW aún no está en sincronía
+
+### Breaking
+-- Refactoreo de algunos módulos por análisis de QA Sonar y reducción de complejidad.
+-- Mejora de los Test para reutilizar números de teléfono generados.
+
+### Bugfix
+-- Correcciones varias debido a cambios en JCARD como longitude RRN y pedido de PIN en las operaciones de débito.
+
+## [0.24.2] - 2016-06-13
+### Features
+-- Se mejora People Identification para guardar y recuperar datos de residencia y ocupación. También la validación de
+las credenciales.
+-- Se agrega la restricción de activación por prefijo
+-- Se conecta el desbloqueo de billetera con JCARD
+-- Test generados para Identificaciones de Personas, Bloqueos/Desbloqueos y Activación por prefijos
+
+## [0.24.1] - 2016-06-03
+### Features
+-- Se mejora PeopleIdentification para guardar y recuperar datos de la base, se agregan mas tipos de imagenes soportados.
+-- Test generados para creditos desde Entidades Externas
+-- Se separa JCardToMibiAndBack en JCardMapper y MibiMapper para legibilidad
+-- Mejora en la organización de los permisos de seguridad basados en URL. Evita duplicación
+
+### Breaking
+-- Se quita la restriccion de los tipos de JCard a que se conformen a JCardTypeEnum solamente, se aceptan cadenas planas
+
+### Bugfix
+-- Al calculo de Base64 de JCardCredential
+-- Corrección de Tests de activación y consultas
+
+## [0.24.0] - 2016-05-31
+### Features
+-- Operaciones genericas basadas en un origen, estos dependen de una tabla de mapeo donde está especificado el tipo en JCARD.
+-- Implementación de paginado y filtro por 2 criterios en las consultas de transacciones (Statement)
+-- Validación en MDW de fecha de nacimiento en el GIRO, RETIRO y CARGA desde el PDV basado en la tabla soporte de KYC.
+-- Validación en MDW de fecha de nacimiento en el registro.
+
+### Breaking
+-- Se introduce una nueva aplicación sólo permitido para la web de agentes.
+
+### Bugfix
+-- Los intentos fallidos se blanquean cuando el usuario se logea exitosamente
+
+## [0.23.0] - 2016-05-16
+### Features
+-- Creación de billeteras on-the-fly
+-- Las billeteras se bloquean al límite de 3 fallos en el login
+-- Un usuario final puedo ver detalle del saldo en la Web
+-- Un usuario final y un agente pueden consultar las transacciones por fecha
+-- Los controles de fecha poseen ayuda de calendario en el formulario de registro, giro, envio y retiro
+-- Un usuario agente puedo visualizar el nombre y apellido KYC de persona asociado a los campos cédula y fecha de nacimiento
+-- Servicio para consultar el tipo de la billetera
+
+### Breaking
+-- Cambio del tamaño de caracteres RRN de transacciones a 12 caracteres,
+
+## [0.22.0] - 2016-04-22
+### Features
+-- Un agente puede gestionar el retiro de dinero desde la Web
+-- Documentación actualizada de la API
+-- Notificaciones a teléfonos móviles por PUSH
+-- Mejoras de organización de fuentes
+-- Creación de un notificador SMS/PUSH/STDOUT asincrono
+
+### Bugfix
+-- El retardo ocurre solo en el login fallido
+-- Al desplegar las transacciones para cash-out permite visualizar mejor el cálculo del monto y comisión.
+
+## [0.21.0] - 2016-04-06
+### Features
+-- Un agente PDV puede logearse desde la Web
+-- Un agente PDV puede realizar operaciones de carga y giros desde la Web.
+-- Se valida la fecha de nacimiento durante el registro
+-- Se agrega el servicio de detalle de saldo
+-- Documentación de la API
+-- Capacidad de realizar carga de dinero desde ATM
+-- A nivel de configuración se agregan mas mensajes por tipo de operación disponible
+-- Se agrega un tiempo de retardo cuando ocurre un login fallido
+
+### Bugfix
+-- Se evita registrar dos clientes con el mismo número de celular al mismo tiempo.
+
+## [0.20.3] - 2016-03-16
+### Features
+-- Se agregan los roles de ADMIN y BACKOFFICE a nivel de consumidores de la API
+-- Se agrega un servicio para resetear los parametros
+
+### Bugfix
+-- Se corrigen el calculo de los debitos y cantidad de transacciones de acuerdo al MIBI-90
+
+## [0.20.2] - 2016-03-08
+### Features
+-- Se implementa MIBI-90, los colores del dinerio
+-- Las operaciones de pagos y compra de minutos envian SMS personalizados
+-- Las transacciones no permite transferir al mismo numero que envia
+-- La operacion de compra en POS envia un SMS personalizado
+-- Mejoras de Logs para depuración
+
+## [0.20.0] - 2016-02-19
+### Features
+-- Se agrega la api /api/issues para cargar tickets en el sistema CRM desde MIBI.
+-- Anexo de comentarios y sugerencias desde la Web
+
+## [0.20.0] - 2016-02-16
+### Features
+-- Se agrega la api /api/pos/debit/{phoneNumber}
+-- Se envia el parámetro de operador al PUSH USSD de acuerdo al prefijo y la tabla de portabilidad
+-- Refactoreo de código de acuerdo a análisis estático
+-- Los despliegues de tickets en la web se adecuan igual a los de los dispositivos moviles.
+-- Se agranda la longitud de los valores de la tabla sys.parameters
+
+### BugFix
+-- El servicio de pago de servicios (ANDE) espera como parámetro la comisión para efectur el pago
+
+
+## [0.19.4] - 2016-02-09
+### Breaking
+-- Se agregan los parametros de numero origen y numero de referencia a las notificaciones
+-- Integración de la Web con Pagos de Facturas y Compra de minutos
+
+## [0.19.3] - 2016-01-28
+### Breaking
+-- Mejoras en formato de plantillas de mensajes para notificaciones
+-- Refactoreo de clases asociadas a PDV y User
+
+### Features
+-- La validación de PIN chequea de 4 a 6 caracteres
+-- Se valida en pago de ANDE y Compra de Minutos que se provea el PIN si es tipo END_USER o el ACCESS_TOKEN si es ON_BEHALF_USER
+-- Implementación de las cabeceras de autenticación contra JCARD
+-- El giro desde el PDV notifica al usuario emisor del GIRO si este provee su numero de telefono
+-- Preactivación de cuentas
+
+## BugFix
+-- El acceso a /api/payment/bill se concede a ON_BEHALF_USER_LAZY
+
+## [0.19.2] - 2016-01-19
+### Breaking
+-- Cambio en el endpoint de pago ANDE:
+--- /api/payment/{phoneNumber}/bill/{accountId}
+------ {phoneNumber} es la billetera de la cuál debitar el pago
+-- Cambio en el endpoint de compra de minutos: 
+--- /api/payment/{sourcePhoneNumber}/recharge/{destinationPhoneNumber}. 
+------ {sourcePhoneNumber} es la billetera de la cuál debitar la compra de minutos 
+------ {destinationPhoneNumber} a donde hacer la recarga
+
+### Features
+-- MIBI-154 pago de servicio ANDE
+-- MIBI-191 Recarga de minutos a operadoras
+-- MIBI-201 La transferencia requiere PIN para realizar la operación
+
+### BugFix
+-- Cambio de PIN en caso de proveer un valor incorrecto se valida el numero introducido y no se retorna 401 si es incorrecto sino 409.
+
+## [0.19.1] - 2016-01-13
+-- Permisos de acceso para transacciones para ATM
+-- Respuesta 404 en cashout de ATM si la billetera no existe
+-- Respuesta de invalid pin en cashout de ATM si se equivoco al poner el PIN
+-- Servicio de reenvio de PIN de activación si la cuenta esta preactivada
+-- Al enviar SMS se realiza un formato de moneda a #,###
+
+## [0.19.0] - 2016-01-11
+### Features
+-- Funciona el endpoint para actualizar datos de un usuario /api/users/{userId}
+-- Restring el acceso de /api/wallets/{phoneNumber}/cash-in-a2w solo al consumer con access_level BANK
+-- MIBI-180, El agentId se pasa a JCard en caso de operaciones desde PDV 
+-- MIBI-47, El para firmar los token se genera la primera vez que el sistema se levanta.
+-- El envio de SMS es tolerante a fallos, si falla el envio de un mensaje se reintenta X veces en intervalos Y.
+-- Se incluyen los servicios para pagos de facturas y compra de minutos
+-- Se mejora la organización de los servicios de ATM, Banco y PDV
+-- La validación de PIN es contra JCARD (222222 ya no es válido)
+-- Al crear un agente PDV se envia una notificación
+-- Consulta de transaccion por medio de /api/tx/{rrn}
+
+## [0.18.1] - 2016-01-05
+### Features
+-- Soluciona un bug que impedia a los usuarios loguearse
+
+## [0.18.0] - 2016-01-04
+
+### Features
+-- El PIN se valida contra jcard (222222 sigue siendo siempre valido)
+-- Funciona el endpoint PATCH /api/users/{userId} para cambiar el password de un usuario.
+-- Los numeros de rrn generados entre MIBI y JCard suben a tamaño 20
+-- Encriptacion del codigo de activacion dentro de la BD de mibi utilizando BCRYPT.
+-- Se asigna el código del operador de la linea para el envio de SMS, se tiene en cuenta si la linea está portada o no
+-- Cache para los parametros de sistema
+-- Agrega al statement rrn,fees y summary
+-- Al enviar SMS se utiliza la tabla de portabilidad y el prefijo del numero de telefono, para determinar el operador
+
+### Breaking
+-- El endpoint /api/wallets/{phoneNumber}/balance ya no devuelve el atributo "errors" sino "errorCode" en caso de error. El objetivo es homogeneizar el API.
+
+### Bug fix
+-- Todas las notificaciones se enviaban con amountWithFees, ahora se envia con ammount (MIBI-183)
+
+## [0.17.1] - 2015-12-29
+## Feature
+-- Se agregan las credenciales de la base de la policia para KYC, peopleIdentification ademas consulta la tabla
+-- Se agrega la tabla de portabilidad numerica.
+
+### Bug fix
+-- No se notifica por SMS cuando es una llamada dry-run
+
+## [0.17.0] - 2015-12-28
+### Feature
+-- Realiza el chequeo de passwords contra JCard. Sigue controlando el "login"
+-- Agrega nuevos endpoints para el acceso de USSD.
+---/api/pdv-tx-ussd/{pdvWallet}/remittances/{destinationPhoneNumber}
+---/api/pdv-tx-ussd/{pdvWallet}/cash-in/{destinationPhoneNumber}
+---/api/pdv-tx-ussd/{pdvWallet}/cash-out/{phoneNumber}
+--USSD puede invocar los metodos de transferencia con commit=false (requiere autenticación en nombre del usuario para commit=true)
+-- Se agregan las notificaciones para las operaciones de giro, carga de dinero y transferencias.
+-- TIME_OUT de transacciones de cashout en tiempos separados para cada tipo PDV y ATM
+
+### Bug fix
+-- El cashout por PDV hacia la tranferencia de manera inversa
+-- Casos de prueba de cashout de ATM fueron mejorados
+
+### Breaking
+-- Mejora la seguridad con los siguientes accesos:
+---/api/users/with-pin solo accesible para USSD (i.e. ON_BEHALF_USER_LAZY)
+---/api/token/on-behalf-user solo accesible para consumers 
+---/api/wallets/{phoneNumber}/owner dejo de ser público (solo accesible para el propio usuario, o on-behalf-user-lazy)
+---/api/wallets/{phoneNumber}/confirm-tx-out dejo de ser publico, (solo accesible para el propio usuario, o on-behalf-user-lazy)
+
+
+## [0.16.3] - 2015-12-24
+### Feature
+-- Permite que la confirmacion de una transacción se realice sin autenticación
+
+## [0.16.2] - 2015-12-23
+### Bug fix
+--Cash out de ATM tenia errores. Bug MIBI-160
+
+###Breaking
+--Cambia el codigo de error cuando no hay fondos suficientes. Estaba wallet.sufficient.funds y ahora es wallet.notSufficient.funds 
+
+## [0.16.1] - 2015-12-23
+### Bug fix
+--El endpoint /api/users/with-pin esta abierto al público
+
+## [0.16.0] - 2015-12-23
+### Breaking
+- El campo totalFees se incluye siempre en las respuestas que sean transacciones. Se incluye con valor cero en caso que no existan fees.
+
+### Bug fix
+-- Cashout de ATM ya no devuelve TIMEOUT cuando el PIN es invalido
+-- Giros de PDV enviaba a JCARD un campo nulo con valor nulo y no esperado. Se omite el atributo si es nulo
+
+## [0.15.0] - 2015-12-22
+### Adaptaciones
+-- Cambia el tipo de retorno en JCar de invalid.id a invalid.realid cuando el usuario es duplicado
+### Features
+-- Giros desde ATM
+-- Se agrega el campo origin a los giros y cashout desde ATM para identificar el origen de los ClientRRN
+-- Se modifica el método de cancelación de transacciones pendientes para cancelar por tiempos separados los tipos PDV y ATM
+
+### Bug fix
+-- GetOwner vuelve a funcionar para PDVs indicando si la billetera es o no un PDV 
+
+## [0.15.0] - 2015-12-17
+### Features
+-- USSD puede llamar a los endpoints de pdv-tx luego de autenticarse con una billetera asignada a un PDV
+-- Crecion de PDVs con JCard
+-- Endpoint para revertir transacciones de cash out basados en el rrn enviado por el cliente /api/tx/reverse-cashout/{rrn}
+
+
+## [0.14.0] - 2015-12-16
+### Features
+--Agrega el endpoint /api/token/on-behalf-user que permite al USSD (y cualquier consumer ON_BEHALF_USER) actuar en nombre de otro.
+--Agrega mas estados para las transacciones en cash-out. Esto permite hacer el seguimiento fino
+--Sincroniza la llamada del ATM con la respuesta del usuario. Si hay un error finalmente en la transaccion (e.j.insuficiencia de fondos) esto es retornado al ATM.
+--Endpoint para reverir transacciones
+--Endpoint para revertir transacciones /api/tx/reverse/{rrn}
+--Integración con USSD durante el proceso de cash-out (para cash-out de ATM y de PDV)
+
+### Breaking
+--Los que usan token ON_BEHALF_USER tienen que conseguir un token de acceso para cada usuario. Antes dejaba con el mismo token acceder a cualquier otra billetera
+--Cambia el compartamiento de /api/atm/cash-out/{phoneNumber}
+---Si no tiene fondos igual envia la peticion USSD (con cero feeds). Se confirma a la vuelta.
+---con parametro "true" bloquea.
+
+
+## [0.12.0] - 2015-12-15
+### Features
+-- KYC: Se implementa las opciones de agregar y visualizar imagenes asociadas a personas
+
+## [0.12.0] - 2015-12-14
+### Features
+-- Autorizacion implementada y activa. 
+---Un usuario no puede impersonalizarse en nombre de otro (ejemplo: un usuario No puede enviar transfer desde la billetera de otro)
+---Rol especial para impersonalizar (ejemplo USSD)
+---Rol para Bancos
+---Rol para ATM
+-- Upgrade a spring-boot 1.3.0 (latest GA release)
+-- Upgrade a spring-security 4.0.3
+--Consumer API 
+---Capacidad para generar consumer ids con claves importantes
+--Guarda el location en los transfer
+--Guarda el thirdPartyNetowork en el caso de cash-in y giro para PDV
+
+### Breaking
+--Se elimina el atributo "currency" de mibiTransfer (no se deberia haber usado).
+--Desactiva el metodo /api/users/{userId}/requestActivationCode
+ 
+## [0.12.0] - 2015-12-07
+### Bugs
+-- MIBI-128 Devuelve codigo de error especializado cuando se activa una billetera con un numero de cedula existente. Código de error = user.personId.duplicate
+
+## [0.11.0] - 2015-12-05
+### Bugs
+-- MIBI-126 El servidor lanza errores en la autenticación, cuando el token es vacio
+
+## [0.10.0] - 2015-12-03
+### Features
+-- Agrega el atributo "netVoucher" a thridPartyNetwork
+-- Si el usuario no esta en MIBI comprueba que No exista en JCard. Si existe en JCard lo vuelve a importar
+-- Agrega documentación sobre el proceso de registro 
+-- El login devuelve el user (para ahorrar un ida y vuelta al server podría ser cómodo)
+
+### Breaking
+--El login ya no devuelve los parametros "shouldChangeInformation, shouldChangePassword"
+--El endpoint /api/wallets/{phoneNumber}/isValid devuelve siempre 200OK. Hay que chequear el atributo success para ver si la billetera es o no válida
+
+## [0.9.0] - 2015-12-01
+### Features
+-- Agrega un endpoint para validar cedula con fecha de nacimiento.  GET /api/peopleIdentification
+
+## [0.9.0] - 2015-12-01
+### Features
+-- Nuevos tipos de transacciones: cashOutAgent2Dealer,cashOutAgent2Agent, cashInDealer2Agent, cashInAgent2Agent, internalDebit
+-- Nuevos endpoints para KYC /api/peopleIdentification
+-- Nuevo endpoint /users/with-pin . Retorna el usuario con su PIN
+
+### Breaking
+-- Cambia el tipo internalCashIn por internalCredit
+-- El JSON que se devuelve en GET /api/wallets/{phoneNumber}/statement, solo posee los atributos que no son null
+
+## [0.7.0] - 2015-11-30
+### Features
+-- Statement#entries posee un atributo nuevo llamado "title". Este es el resumen de la transaccion que debe ser presentado al usuario
+
+## [0.6.0] - 2015-11-27
+### Features
+--La autenticacion esta funcionando pero esta desactivada
+--El usuario posee un atributo que indica si es un numero de pdv, y si esta activo
+
+## [0.5.0] - 2015-11-24
+### Features
+-- Endpoints para realizar el proceos de autenticación (login,logout,access token, refresh token) funcionando con tokens
+-- Incluye documentacion del proceso de autenticación en http://localhost:8080/mibi/autenticacion.html
+-- El sistema de autorizacion prohibe la entrada sin token valido. Sin embargo, aun no se realiza control a nivel de objeto
+-- Conectado con envio de SMS
+-- Posee una lista blanca donde se envian todos los SMS de activacion
+
+## [0.4.0] - 2015-11-23
+### Features
+-- Todos los endpoints de transacción tienen un nuevo parámetro de query "commit" que por defecto es false. Indica si la transacción se debe ejecutar o no.
+
+
+## [0.3.0] - 19/11/15
+### Breaking
+-- El API /api/wallets/{phoneNumber}/cash-in-a2w tenia un type. El nombre era chash-in-a2w en lugar de cash-in-a2w 
+
+## [0.3.0] - 18/11/15
+### Breaking
+-- El id de usuarios es un string ofuscado en lugar de un long
+-- Cambia el endpoint /api/pdv-tx/cashin/{destinationPhoneNumber} a /api/pdv-tx/cash-in/{destinationPhoneNumber}
+-- Elimina el endpoint /api/users/{userId}/activate
+
+###Features
+--El endpoint /mibi/api/users/ devuelve un campo nuevo llamdo "state". Indica si el usuario ya esta activo (PENDING, ACTIVE, INACTIVE)
+--Crea el endpoint para login /api/login
+--End point para activar un wallet desde USSD /api/wallets/{phoneNumber}/activate
+
+## [0.2.0] - 17/11/15
+### Breaking
+- El endpoint POST /api/wallets/{phoneNumber}/credit-a2w cambio a POST /api/wallets/{phoneNumber}/cash-in-a2w (solo cambio de nombre)
+- El endpoint POST /api/wallets/{phoneNumber}/debit-w2a cambio a POST /api/wallets/{phoneNumber}/cash-out-w2a
+
+Features
+- Se agrego un endpoint para realizar giro desde el banco. /api/wallets/{phoneNumber}/cash-out-w2a/giro-a2w
+
+## [0.1.4] - 16/11/15
+### Breaking
+- El endpoint /api/wallets/{phoneNumber}/debit se renombró /api/wallets/{phoneNumber}/debit-w2a
+
+Features
+- Todos los metodos que realizan transaccion devuelven el "rrn" indicando el codigo de la transaccion
+-- El endpoint /api/wallets/{sourcePhoneNumber}/transfer/{destinationPhoneNumber} devuelve el rrn (numero de transaccion)
+- Se implementaron los endpoints para las redes y PDVs.
+-- Cash-in para un usuario que se acerca al mostrador /api/pdv-tx/cashin/{destinationPhoneNumber} 
+-- Giro para un usuario que se acerca al mostrador /api/pdv-tx/remittances/{destinationPhoneNumber}
+-- Firma para el cashout, momento en el que un usuario se acerca al mostrador. POST /api/pdv-tx/cashout/{phoneNumber}
+
+###Features
+- Agrega GeoLocation a todos los pedidos de tranferencia (es siempre opcional)
+
+## [0.1.3] - 2015-11-12
+### Features
+- Endpoint para obtener el dueño de una billetera "GET /api/wallets/{phoneNumber}/owner"
+- Endpoint para activar una billetera en baes al numero "GET /api/wallets/{phoneNumber}/activate"
+
+## [0.1.2] - 2015-11-11
+### Breaking
+-Rompe el API /customer. Redireccionar a /users
+-No se utiliza la version dentro del URL. Eliminar "v1" del comienzo
+-La version se utilizará en el URL solo para asegurar compatibilidad hacia atras.
+-Esconde todos los endpoints que están inestables o no funcionan
+
+### Features
+- /users posee el api estable y ya no cambiaría
+- /users posee manejo de error en su totalidad. Documentado en swagger
+- PUT /api/users/{userId}
+
+
+### Fixed
+- Credito, Debito y transfer P2P estan funcionando
+

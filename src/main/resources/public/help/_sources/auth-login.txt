@@ -1,0 +1,177 @@
+.. title::
+    Autenticación Básica
+
+*********************
+Autenticación Básica
+*********************
+
+.. _mibi-auth-simple:
+
+Acceso al sistema
+==================
+
+.. note::
+    Esta sección explica el mecanismo de autenticación básico y simple que se
+    liberó como VERSION 1.0 del método de acceso. Para los ingresos via Web y
+    Móvil se recomienda seguir la guía que incluye los casos y requerimientos
+    especiales para estos dos canales.
+
+Obtener un token de ingreso
+----------------------------
+
+En este apartado queremos resumir los *endpoints* y el orden en que
+deben ser invocados, para que un usuario consiga una autenticación exitosa.
+
+.. http:post:: /api/login
+
+    **Petición de Ejemplo**
+
+    El primer paso es invocar el método de login. Se realiza un login con la
+    aplicación web.
+    
+    .. sourcecode:: http
+   
+        POST /api/login HTTP/1.1
+        Host: example.com
+        Accept: application/json, text/javascript
+        Content-Type: text/javascript
+        
+        {
+            "username": "0900315474",
+            "password": "682048",
+            "applicationId": "XPSC63DK2UAA"
+        }
+        
+    :<json string applicationId: Es el ID de aplicación expedido para cada
+     tipo (ver :ref:`mibi-app-id`).
+
+    **Respuesta de Ejemplo**
+    
+    En caso de tener éxito la aplicación devolverá un JSON como el siguiente
+
+    .. sourcecode:: http    
+
+        HTTP/1.1 202 Accepted
+        Content-Type: text/javascript
+
+        {
+            "success": true,
+            "errorCode": null,
+            "message": null,
+            "secret": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwOTAwMzE1NDc0IiwiZXhwIjoxNDQ5MTc3ODUzLCJpYXQiOjE0NDkxNzQyNTMsImlzcyI6InBsYXRhcHAuY29tLnB5IiwianRpIjoiVlpBTEZGRFZKUEozRkJUQ1MzTVEiLCJhdWQiOiJzdHJpbmciLCJtaWJpIjp7ImF1dGhzIjpudWxsLCJ0eXBlIjoiUkVGUkVTSCJ9fQ.cJCq5VJjZSnSx1ZOm_2jq9bULNRiUdc06bKkjBIhbv7qGJoHfXTp4uy0tEwFmGz4Pj3Y37KumUbzTWi_mtGg-A",
+            "expiration": 1449177853000,
+            "userId": "KPOIFC4S32QA",
+            "user": {
+                "id": "KPOIFC4S32QA",
+                "active": true,
+                "status": "PENDING",
+                "phone": "0900315474",
+                "pdv": false
+            }
+        }
+    
+    :statuscode 202: Autenticación exitosa
+    :statuscode 401: Fallo por credenciales incorrectas
+    :statuscode 403: Nombre de aplicación inválida
+    :>json string secret: Es el token JWT que debe ser incluido en las
+     siguientes peticiones
+    :>json string userId: El ID del usuario para que se puedan invocar los
+     métodos que correspondan a este usuario
+    :>json string status: El estado del usuario
+    :>json boolean pdv: El *flag* que indica si es agente o usuario final
+
+Observación:
+
+    **El status del usuario es CLAVE para saber si puede operar**
+    
+    Si el ``status`` del usuario es PENDING o CREATING entonces no está
+    activo y debe ser activado.
+    Ver :ref:`mibi-activate`
+
+Obtener un token de acceso
+--------------------------
+
+La aplicación ya posee un :term:`refresh token` con el cual intentará conseguir
+un :term:`access token`. El *refresh token* puede ser revocado (e.j. logout
+del usuario, o una denuncia de robo). 
+
+.. http:post:: /api/token/user-access
+    
+    **Petición de Ejemplo**
+
+    Para conseguir el token de acceso el sistema invocará un POST (sin body).
+    Lo importante es incluir el *refresh token* en el cabecera de
+    autorización ``X-MIBI-AUTH``.
+    
+    .. sourcecode:: http
+   
+        POST /api/token/user-access HTTP/1.1
+        Host: example.com
+        Accept: application/json, text/javascript
+        Content-Type: text/javascript
+        X-MIBI-AUTH: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwOTAwMzE1NDc0IiwiZXhwIjoxNDQ4NDA3MTA2LCJpYXQiOjE0NDg0MDM1MDYsImlzcyI6InBsYXRhcHAuY29tLnB5IiwianRpIjoiNFJBWVBOVExOV1VKNUNCS0VKNFEiLCJhdWQiOiJkYWFhIiwibWliaSI6eyJhdXRocyI6bnVsbCwidHlwZSI6IlJFRlJFU0gifX0.PFCA2fz3GSPFZ48S3h541gMe5sjzGwgoxqYdq1267_yXh4Az_5-HSiRYs2pY_mk-Sqpywkj76n7QEiJl5rPVgA
+        
+    :reqheader X-MIBI-AUTH: MIBI *refresh token* para acceso
+    
+    **Respuesta de Ejemplo**
+    
+    En un caso exitoso el servicio devolverá un *access token*, el cual
+    puede ser utilizado para invocar todos los métodos a los que tenga acceso
+    el cliente.
+
+    .. sourcecode:: http
+        
+        HTTP/1.1 202 Accepted
+        Content-Type: text/javascript
+        
+        {
+            "success": true,
+            "errorCode": null,
+            "message": null,
+            "secret": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwOTAwMzE1NDc0IiwiZXhwIjoxNDQ4NDA0NzM0LCJpYXQiOjE0NDg0MDM1MzQsImlzcyI6InBsYXRhcHAuY29tLnB5IiwianRpIjoiNUJBWlRGUEpQNUxaS1dOWk01VEEiLCJhdWQiOiJkYWFhIiwibWliaSI6eyJhdXRocyI6bnVsbCwidHlwZSI6IkVORF9VU0VSX0FDQ0VTUyJ9fQ.VAahdlOmxv3Oj6ql0ORHVOX-iGtIL61lnwqJ69GlyHgyx3h5rPP2Nxy-w3U4YUMyNxTp9-tpbXiW-56xAWFJqg",
+            "expiration": 1448404734000
+        }
+        
+    :statuscode 202: Autorización exitosa
+    :statuscode 403: En caso de proveerse un *refresh token* inválido
+    :>json string secret: El atributo secret contiene el token en formato ``JWT``
+     que se debe utilizar en los siguientes llamados.
+
+
+Invocación a métodos protegidos por access token
+------------------------------------------------
+
+Para hacer una invocación a cualquier método de acceso de usuario se debe
+realizar la invocación con un token de acceso. Este token de acceso debe
+incluirse en la cabecera http en el atributo ``X-MIBI-AUTH``
+
+Expiración de tokens
+====================
+
+Los token devueltos están en formato `JWT <http://jwt.io>`_
+(ver :ref:`mibi-jwt-format`) y se podría leer toda la información
+desempaquetando el token. Para comodidad del programador se presenta
+siempre la expiración cuando un token es devuelto. Ejemplo:
+
+        
+.. code-block:: javascript
+
+    {
+        "success": true,
+        "errorCode": null,
+        "message": null,
+        "secret": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwOTAwMzE1NDc0IiwiZXhwIjoxNDQ4NDA0NzM0LCJpYXQiOjE0NDg0MDM1MzQsImlzcyI6InBsYXRhcHAuY29tLnB5IiwianRpIjoiNUJBWlRGUEpQNUxaS1dOWk01VEEiLCJhdWQiOiJkYWFhIiwibWliaSI6eyJhdXRocyI6bnVsbCwidHlwZSI6IkVORF9VU0VSX0FDQ0VTUyJ9fQ.VAahdlOmxv3Oj6ql0ORHVOX-iGtIL61lnwqJ69GlyHgyx3h5rPP2Nxy-w3U4YUMyNxTp9-tpbXiW-56xAWFJqg",
+        "expiration": 1448404734000
+    }
+        
+
+El atributo *expiration* es la cantidad de milisegundos desde el el tiempo
+conocido como "the epoch", Enero 1, 1970, 00:00:00 GMT. Esto permite en un
+lenguaje como *Java* o *Javascript* escribir
+
+.. code-block:: javascript
+
+    new Date(expiration);
+
+El sistema debería de escribir un *timeout* y refrescar el token antes de
+que expire, para garantizarle al usuario una buena experiencia.
